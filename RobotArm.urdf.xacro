@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="RobotArm">
+
+	<xacro:include filename="Parameters.xacro"/>
+	<xacro:include filename="Materials.xacro" />
+
+	<link name="base_link">
+		
+		<visual>
+			<origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
+			<geometry>
+				<box size="${base_length} ${base_width} ${base_height}"/>
+			</geometry>
+			<material name="green"/>
+		</visual>
+
+		<colision>
+			<origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
+			<geometry>
+				<box size="${base_length} ${base_width} ${base_height}"/>
+			</geometry>
+		</colision>
+	</link>
+
+	<joint name="base-rotator_joint" type="revolute">
+		
+		<origin xyz="0 0 ${base_height}" rpy="0 0 -${pi/2}"/>
+		<parent link="base_link"/>
+		<child link="rotator_link"/>
+		<axis xyz="0 0 1"/>
+		<limit lower="0" upper="${pi}" velocity="100" effort="100"/>
+	</joint>
+
+	<link name="rotator_link">
+		
+		<visual>
+			<origin xyz="0 0 ${rotator_length/2}"/>
+			<geometry>
+				<cylinder length="${rotator_length}" radius="${rotator_radius}"/>
+			</geometry>
+			<material name="blue"/>
+		</visual>
+
+		<colision>
+			<origin xyz="0 0 ${rotator_length/2}"/>
+			<geometry>
+				<cylinder length="${rotator_length}" radius="${rotator_radius}"/>
+			</geometry>
+		</colision>
+	</link>
+
+	<joint name="rotator-arm1_joint" type="revolute">
+		<origin xyz="0 0 ${rotator_length}" rpy="0 0 0"/>
+		<parent link="rotator_link"/>
+		<child link="arm1_link"/>
+		<axis xyz="0 1 0"/>
+		<limit lower="0" upper="${pi/2}" velocity="100" effort="100"/>
+	</joint>
+
+	<link name="arm1_link">
+		
+		<visual>
+			<origin xyz="0 0 ${arm1_length/2}" rpy="0 0 0"/>
+			<geometry>
+				<cylinder length="${arm1_length}" radius="${arm1_radius}"/>
+			</geometry>
+			<material name="red"/>
+		</visual>
+
+		<colision>
+			<origin xyz="0 0 ${arm1_length/2}" rpy="0 0 0"/>
+			<geometry>
+				<cylinder length="${arm1_length}" radius="${arm1_radius}"/>
+			</geometry>
+		</colision>
+
+	</link>
+
+	<joint name="arm1-arm2_joint" type="revolute">
+		<origin xyz="0 0 ${arm1_length}" rpy="0 0 0"/>
+		<parent link="arm1_link"/>
+		<child link="arm2_link"/>
+		<axis xyz="0 1 0"/>
+		<limit lower="0" upper="${pi}" velocity="100" effort="100"/>
+	</joint>
+
+	<link name="arm2_link">
+
+		<visual>
+			<origin xyz="0 0 ${arm2_length/2}" rpy="0 0 0"/>
+			<geometry>
+				<cylinder length="${arm2_length}" radius="${arm2_radius}"/>
+			</geometry>
+			<material name="yellow"/>
+		</visual>
+
+		<colision>
+			<origin xyz="0 0 ${arm2_length/2}" rpy="0 0 0"/>
+			<geometry>
+				<cylinder length="${arm2_length}" radius="${arm2_radius}"/>
+			</geometry>
+		</colision>
+	</link>
+
+	<joint name="arm2-gripperBase_joint" type="revolute">
+		<origin xyz="0 0 ${arm2_length}" rpy="0 ${pi/2} 0"/>
+		<parent link="arm2_link"/>
+		<child link="gripperBase_link"/>
+		<axis xyz="0 1 0"/>
+		<limit lower="0" upper="${pi/2}" velocity="100" effort="100"/>
+	</joint>
+
+	<link name="gripperBase_link">
+		
+		<visual>
+			<origin xyz="-${gripperBase_width/2} 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${gripperBase_width} ${gripperBase_height} ${gripperBase_height}"/>
+			</geometry>
+			<material name="white"/>
+		</visual>
+		<colision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="${gripperBase_width} ${gripperBase_height} ${gripperBase_height}"/>
+			</geometry>
+		</colision>
+	</link>
+
+	<joint name="gripperBase-gripperClawLeft_joint" type="revolute">
+		
+		<origin xyz="${gripperBase_width} ${gripperBase_height/4} 0" rpy="0 ${pi/2} 0"/>
+		<parent link="gripperBase_link"/>
+		<child link="gripperClawLeft_link"/>
+		<axis xyz="-1 0 0"/>
+		<limit lower="-${pi/6}" upper="${pi/6}" velocity="100" effort="100"/>
+	</joint>
+
+	<link name="gripperClawLeft_link">
+
+		<visual>
+			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+			<geometry>
+				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
+			</geometry>
+			<material name="white"/>
+		</visual>
+
+		<colision>
+			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+			<geometry>
+				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
+			</geometry>
+		</colision>
+	</link>
+
+	<joint name="gripperBase-gripperClawRight_joint" type="revolute">
+		
+		<origin xyz="${gripperBase_width} -${gripperBase_height/4} 0" rpy="0 ${pi/2} 0"/>
+		<parent link="gripperBase_link"/>
+		<child link="gripperClawRight_link"/>
+		<axis xyz="1 0 0"/>
+		<limit lower="-${pi/6}" upper="${pi/6}" velocity="100" effort="100"/>
+	</joint>
+
+	<link name="gripperClawRight_link">
+
+		<visual>
+			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+			<geometry>
+				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
+			</geometry>
+			<material name="white"/>
+		</visual>
+
+		<colision>
+			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+			<geometry>
+				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
+			</geometry>
+		</colision>
+	</link>
+</robot>
