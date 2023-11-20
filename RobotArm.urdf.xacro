@@ -3,6 +3,7 @@
 
 	<xacro:include filename="Parameters.xacro"/>
 	<xacro:include filename="Materials.xacro" />
+	<xacro:include filename="Macros.xacro" />
 
 	<link name="base_link">
 		
@@ -47,6 +48,11 @@
 				<cylinder length="${rotator_length}" radius="${rotator_radius}"/>
 			</geometry>
 		</colision>
+
+		<xacro:inertial_cylinder mass="0.7" length="${rotator_length}" radius="${rotator_radius}">
+			<origin xyz="0 0 ${rotator_length/2}"/>
+		</xacro:inertial_cylinder>
+
 	</link>
 
 	<joint name="rotator-arm1_joint" type="revolute">
@@ -74,6 +80,9 @@
 			</geometry>
 		</colision>
 
+		<xacro:inertial_cylinder mass="0.5" length="${arm1_length}" radius="${arm1_radius}">
+			<origin xyz="0 0 ${arm1_length/2}" rpy="0 0 0"/>
+		</xacro:inertial_cylinder>
 	</link>
 
 	<joint name="arm1-arm2_joint" type="revolute">
@@ -100,6 +109,10 @@
 				<cylinder length="${arm2_length}" radius="${arm2_radius}"/>
 			</geometry>
 		</colision>
+
+		<xacro:inertial_cylinder mass="0.5" length="${arm2_length}" radius="${arm2_radius}">
+			<origin xyz="0 0 ${arm2_length/2}" rpy="0 0 0"/>
+		</xacro:inertial_cylinder>
 	</link>
 
 	<joint name="arm2-gripperBase_joint" type="revolute">
@@ -125,6 +138,10 @@
 				<box size="${gripperBase_width} ${gripperBase_height} ${gripperBase_height}"/>
 			</geometry>
 		</colision>
+
+		<xacro:inertial_box mass="0.2" x="${gripperBase_width}" y="${gripperBase_height}" z="${gripperBase_height}">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+		</xacro:inertial_box>
 	</link>
 
 	<joint name="gripperBase-gripperClawLeft_joint" type="revolute">
@@ -152,6 +169,10 @@
 				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
 			</geometry>
 		</colision>
+
+		<xacro:inertial_box mass="0.1" x="${gripperClaw_length}" y="${gripperClaw_width}" z="${gripperClaw_height}">
+			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+		</xacro:inertial_box>
 	</link>
 
 	<joint name="gripperBase-gripperClawRight_joint" type="revolute">
@@ -179,5 +200,9 @@
 				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
 			</geometry>
 		</colision>
+
+		<xacro:inertial_box mass="0.1" x="${gripperClaw_length}" y="${gripperClaw_width}" z="${gripperClaw_height}">
+			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+		</xacro:inertial_box>
 	</link>
 </robot>
