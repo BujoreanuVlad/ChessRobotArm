@@ -20,4 +20,25 @@
 	<material name="white">
 		<color rgba="1 1 1 1"/>
 	</material>
+
+	<gazebo reference="base_link">
+		<material>Gazebo/Green</material>
+	</gazebo>
+
+	<gazebo reference="rotator_link">
+		<material>Gazebo/Blue</material>
+	</gazebo>
+
+	<gazebo reference="arm1_link">
+		<material>Gazebo/Red</material>
+	</gazebo>
+
+	<gazebo reference="arm2_link">
+		<material>Gazebo/Yellow</material>
+	</gazebo>
+
+	<gazebo reference="gripperBase_link">
+		<material>Gazebo/White</material>
+	</gazebo>
+
 </robot>

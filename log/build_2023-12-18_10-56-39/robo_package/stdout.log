@@ -1,0 +1,24 @@
+-- Install configuration: ""
+-- Execute custom install script
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/launch/robo_launcher.launch.py
+-- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/.RobotArm.urdf.xacro.swp
+-- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/Gazebo_Plugins.xacro
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/Macros.xacro
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/Materials.xacro
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/Parameters.xacro
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/RobotArm.urdf.xacro
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/ament_index/resource_index/package_run_dependencies/robo_package
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/ament_index/resource_index/parent_prefix_path/robo_package
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/environment/path.sh
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/environment/path.dsv
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/local_setup.bash
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/local_setup.sh
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/local_setup.zsh
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/local_setup.dsv
+-- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/package.dsv
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/ament_index/resource_index/packages/robo_package
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/cmake/robo_packageConfig.cmake
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/cmake/robo_packageConfig-version.cmake
+-- Up-to-date symlink: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/package.xml

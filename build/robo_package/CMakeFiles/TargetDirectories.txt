@@ -1,0 +1,9 @@
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/uninstall.dir
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/robo_package_uninstall.dir
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/test.dir
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/edit_cache.dir
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/rebuild_cache.dir
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/list_install_components.dir
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/install.dir
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/install/local.dir
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/CMakeFiles/install/strip.dir

@@ -1,0 +1,1 @@
+/home/vlad/Desktop/ChessRobotArm/build/robo_package/ament_cmake_environment_hooks/local_setup.sh

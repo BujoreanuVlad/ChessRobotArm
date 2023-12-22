@@ -5,6 +5,14 @@
 	<xacro:include filename="Materials.xacro" />
 	<xacro:include filename="Macros.xacro" />
 
+	<link name="world"></link>
+
+	<joint name="world-base_joint" type="fixed">
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<parent link="world"/>
+		<child link="base_link"/>
+	</joint>
+
 	<link name="base_link">
 		
 		<visual>
@@ -15,12 +23,15 @@
 			<material name="green"/>
 		</visual>
 
-		<colision>
+		<collision>
 			<origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
 			<geometry>
 				<box size="${base_length} ${base_width} ${base_height}"/>
 			</geometry>
-		</colision>
+		</collision>
+		<xacro:inertial_box mass="1.5" x="${base_length}" y="${base_width}" z="${base_height}">
+			<origin xyz="0 0 ${base_height/2}" rpy="0 0 0"/>
+		</xacro:inertial_box>
 	</link>
 
 	<joint name="base-rotator_joint" type="revolute">
@@ -30,6 +41,7 @@
 		<child link="rotator_link"/>
 		<axis xyz="0 0 1"/>
 		<limit lower="0" upper="${pi}" velocity="100" effort="100"/>
+		<dynamics friction="0.98" damping="0"/>
 	</joint>
 
 	<link name="rotator_link">
@@ -42,14 +54,14 @@
 			<material name="blue"/>
 		</visual>
 
-		<colision>
+		<collision>
 			<origin xyz="0 0 ${rotator_length/2}"/>
 			<geometry>
 				<cylinder length="${rotator_length}" radius="${rotator_radius}"/>
 			</geometry>
-		</colision>
+		</collision>
 
-		<xacro:inertial_cylinder mass="0.7" length="${rotator_length}" radius="${rotator_radius}">
+		<xacro:inertial_cylinder mass="0.15" length="${rotator_length}" radius="${rotator_radius}">
 			<origin xyz="0 0 ${rotator_length/2}"/>
 		</xacro:inertial_cylinder>
 
@@ -61,6 +73,7 @@
 		<child link="arm1_link"/>
 		<axis xyz="0 1 0"/>
 		<limit lower="0" upper="${pi/2}" velocity="100" effort="100"/>
+		<dynamics friction="0" damping="80"/>
 	</joint>
 
 	<link name="arm1_link">
@@ -73,14 +86,14 @@
 			<material name="red"/>
 		</visual>
 
-		<colision>
+		<collision>
 			<origin xyz="0 0 ${arm1_length/2}" rpy="0 0 0"/>
 			<geometry>
 				<cylinder length="${arm1_length}" radius="${arm1_radius}"/>
 			</geometry>
-		</colision>
+		</collision>
 
-		<xacro:inertial_cylinder mass="0.5" length="${arm1_length}" radius="${arm1_radius}">
+		<xacro:inertial_cylinder mass="0.1" length="${arm1_length}" radius="${arm1_radius}">
 			<origin xyz="0 0 ${arm1_length/2}" rpy="0 0 0"/>
 		</xacro:inertial_cylinder>
 	</link>
@@ -91,6 +104,7 @@
 		<child link="arm2_link"/>
 		<axis xyz="0 1 0"/>
 		<limit lower="0" upper="${pi}" velocity="100" effort="100"/>
+		<dynamics friction="0.98" damping="0"/>
 	</joint>
 
 	<link name="arm2_link">
@@ -103,14 +117,14 @@
 			<material name="yellow"/>
 		</visual>
 
-		<colision>
+		<collision>
 			<origin xyz="0 0 ${arm2_length/2}" rpy="0 0 0"/>
 			<geometry>
 				<cylinder length="${arm2_length}" radius="${arm2_radius}"/>
 			</geometry>
-		</colision>
+		</collision>
 
-		<xacro:inertial_cylinder mass="0.5" length="${arm2_length}" radius="${arm2_radius}">
+		<xacro:inertial_cylinder mass="0.1" length="${arm2_length}" radius="${arm2_radius}">
 			<origin xyz="0 0 ${arm2_length/2}" rpy="0 0 0"/>
 		</xacro:inertial_cylinder>
 	</link>
@@ -121,88 +135,93 @@
 		<child link="gripperBase_link"/>
 		<axis xyz="0 1 0"/>
 		<limit lower="0" upper="${pi/2}" velocity="100" effort="100"/>
+		<dynamics friction="0.98" damping="0"/>
 	</joint>
 
 	<link name="gripperBase_link">
 		
 		<visual>
-			<origin xyz="-${gripperBase_width/2} 0 0" rpy="0 0 0"/>
+			<origin xyz="-${gripperBase_length/2} 0 0" rpy="0 0 0"/>
 			<geometry>
-				<box size="${gripperBase_width} ${gripperBase_height} ${gripperBase_height}"/>
+				<box size="${gripperBase_length} ${gripperBase_width} ${gripperBase_height}"/>
 			</geometry>
 			<material name="white"/>
 		</visual>
-		<colision>
+		<collision>
 			<origin xyz="0 0 0" rpy="0 0 0"/>
 			<geometry>
-				<box size="${gripperBase_width} ${gripperBase_height} ${gripperBase_height}"/>
+				<box size="${gripperBase_length} ${gripperBase_width} ${gripperBase_height}"/>
 			</geometry>
-		</colision>
+		</collision>
 
-		<xacro:inertial_box mass="0.2" x="${gripperBase_width}" y="${gripperBase_height}" z="${gripperBase_height}">
+		<xacro:inertial_box mass="0.08" x="${gripperBase_length}" y="${gripperBase_width}" z="${gripperBase_height}">
 			<origin xyz="0 0 0" rpy="0 0 0"/>
 		</xacro:inertial_box>
 	</link>
 
 	<joint name="gripperBase-gripperClawLeft_joint" type="revolute">
 		
-		<origin xyz="${gripperBase_width} ${gripperBase_height/4} 0" rpy="0 ${pi/2} 0"/>
+		<origin xyz="-${gripperClaw_height} ${gripperBase_width/4} 0" rpy="0 ${pi/2} 0"/>
 		<parent link="gripperBase_link"/>
 		<child link="gripperClawLeft_link"/>
 		<axis xyz="-1 0 0"/>
 		<limit lower="-${pi/6}" upper="${pi/6}" velocity="100" effort="100"/>
+		<dynamics friction="0.98" damping="0"/>
 	</joint>
 
 	<link name="gripperClawLeft_link">
 
 		<visual>
-			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+			<origin xyz="0 0 ${gripperClaw_height/2}" rpy="0 0 0"/>
 			<geometry>
 				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
 			</geometry>
 			<material name="white"/>
 		</visual>
 
-		<colision>
+		<collision>
 			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
 			<geometry>
 				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
 			</geometry>
-		</colision>
+		</collision>
 
-		<xacro:inertial_box mass="0.1" x="${gripperClaw_length}" y="${gripperClaw_width}" z="${gripperClaw_height}">
-			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+		<xacro:inertial_box mass="0.005" x="${gripperClaw_length}" y="${gripperClaw_width}" z="${gripperClaw_height}">
+			<origin xyz="0 0 ${gripperClaw_length/2}" rpy="0 0 0"/>
 		</xacro:inertial_box>
 	</link>
 
 	<joint name="gripperBase-gripperClawRight_joint" type="revolute">
 		
-		<origin xyz="${gripperBase_width} -${gripperBase_height/4} 0" rpy="0 ${pi/2} 0"/>
+		<origin xyz="-${gripperClaw_height} -${gripperBase_width/4} 0" rpy="0 ${pi/2} 0"/>
 		<parent link="gripperBase_link"/>
 		<child link="gripperClawRight_link"/>
 		<axis xyz="1 0 0"/>
 		<limit lower="-${pi/6}" upper="${pi/6}" velocity="100" effort="100"/>
+		<dynamics friction="0.98" damping="0"/>
 	</joint>
 
 	<link name="gripperClawRight_link">
 
 		<visual>
-			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+			<origin xyz="0 0 ${gripperClaw_height/2}" rpy="0 0 0"/>
 			<geometry>
 				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
 			</geometry>
 			<material name="white"/>
 		</visual>
 
-		<colision>
+		<collision>
 			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
 			<geometry>
 				<box size="${gripperClaw_length} ${gripperClaw_width} ${gripperClaw_height}"/>
 			</geometry>
-		</colision>
+		</collision>
 
-		<xacro:inertial_box mass="0.1" x="${gripperClaw_length}" y="${gripperClaw_width}" z="${gripperClaw_height}">
-			<origin xyz="0 0 -${gripperClaw_height/2}" rpy="0 0 0"/>
+		<xacro:inertial_box mass="0.005" x="${gripperClaw_length}" y="${gripperClaw_width}" z="${gripperClaw_height}">
+			<origin xyz="0 0 ${gripperClaw_length/2}" rpy="0 0 0"/>
 		</xacro:inertial_box>
 	</link>
+
+	<xacro:include filename="Gazebo_Plugins.xacro"/> 
 </robot>

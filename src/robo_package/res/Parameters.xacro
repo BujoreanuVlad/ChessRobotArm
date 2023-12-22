@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:property name="base_length" value="0.12"/>
+	<xacro:property name="base_width" value="0.12"/>
+	<xacro:property name="base_height" value="0.05"/>
+
+	<xacro:property name="rotator_length" value="0.02"/>
+	<xacro:property name="rotator_radius" value="0.02"/>
+
+	<xacro:property name="arm1_length" value="0.364"/>
+	<xacro:property name="arm1_radius" value="0.02"/>
+
+	<xacro:property name="arm2_length" value="0.285"/>
+	<xacro:property name="arm2_radius" value="0.02"/>
+
+	<xacro:property name="gripperBase_length" value="0.02"/>
+	<xacro:property name="gripperBase_width" value="0.04"/>
+	<xacro:property name="gripperBase_height" value="0.05"/>
+
+	<xacro:property name="gripperClaw_length" value="0.01"/>
+	<xacro:property name="gripperClaw_width" value="0.01"/>
+	<xacro:property name="gripperClaw_height" value="0.05"/>
+
+</robot>

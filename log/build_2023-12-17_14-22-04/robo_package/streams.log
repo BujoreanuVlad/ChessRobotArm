@@ -1,0 +1,51 @@
+[0.028s] Invoking command in '/home/vlad/Desktop/ChessRobotArm/build/robo_package': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/vlad/Desktop/ChessRobotArm/src/robo_package -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/vlad/Desktop/ChessRobotArm/install/robo_package
+[0.063s] -- The C compiler identification is GNU 11.4.0
+[0.096s] -- The CXX compiler identification is GNU 11.4.0
+[0.100s] -- Detecting C compiler ABI info
+[0.143s] -- Detecting C compiler ABI info - done
+[0.147s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.148s] -- Detecting C compile features
+[0.148s] -- Detecting C compile features - done
+[0.149s] -- Detecting CXX compiler ABI info
+[0.206s] -- Detecting CXX compiler ABI info - done
+[0.209s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.210s] -- Detecting CXX compile features
+[0.210s] -- Detecting CXX compile features - done
+[0.211s] -- Found ament_cmake: 1.3.6 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.313s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[0.349s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.361s] -- Found ament_lint_auto: 0.12.9 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.406s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.406s] -- Added test 'lint_cmake' to check CMake code style
+[0.406s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.407s] -- Added test 'xmllint' to check XML markup files
+[0.407s] -- Configuring done
+[0.409s] -- Generating done
+[0.409s] -- Build files have been written to: /home/vlad/Desktop/ChessRobotArm/build/robo_package
+[0.412s] Invoked command in '/home/vlad/Desktop/ChessRobotArm/build/robo_package' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/vlad/Desktop/ChessRobotArm/src/robo_package -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/vlad/Desktop/ChessRobotArm/install/robo_package
+[0.413s] Invoking command in '/home/vlad/Desktop/ChessRobotArm/build/robo_package': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/vlad/Desktop/ChessRobotArm/build/robo_package -- -j8 -l8
+[0.437s] Invoked command in '/home/vlad/Desktop/ChessRobotArm/build/robo_package' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/vlad/Desktop/ChessRobotArm/build/robo_package -- -j8 -l8
+[0.455s] Invoking command in '/home/vlad/Desktop/ChessRobotArm/build/robo_package': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/vlad/Desktop/ChessRobotArm/build/robo_package
+[0.458s] -- Install configuration: ""
+[0.459s] -- Execute custom install script
+[0.459s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/launch/robo_launcher.launch.py
+[0.464s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/Macros.xacro
+[0.468s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/Materials.xacro
+[0.473s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/Parameters.xacro
+[0.478s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/res/RobotArm.urdf.xacro
+[0.483s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/ament_index/resource_index/package_run_dependencies/robo_package
+[0.488s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/ament_index/resource_index/parent_prefix_path/robo_package
+[0.492s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/environment/ament_prefix_path.sh
+[0.497s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/environment/ament_prefix_path.dsv
+[0.502s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/environment/path.sh
+[0.507s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/environment/path.dsv
+[0.512s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/local_setup.bash
+[0.517s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/local_setup.sh
+[0.521s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/local_setup.zsh
+[0.526s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/local_setup.dsv
+[0.532s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/package.dsv
+[0.538s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/ament_index/resource_index/packages/robo_package
+[0.542s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/cmake/robo_packageConfig.cmake
+[0.547s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/cmake/robo_packageConfig-version.cmake
+[0.552s] -- Symlinking: /home/vlad/Desktop/ChessRobotArm/install/robo_package/share/robo_package/package.xml
+[0.558s] Invoked command in '/home/vlad/Desktop/ChessRobotArm/build/robo_package' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/vlad/Desktop/ChessRobotArm/build/robo_package
