@@ -1,8 +1,12 @@
 #include <Servo.h>
+#include "DRV8825.h"
 
 #define CLAW_PIN 5
 #define WRIST_PIN 6
 #define ELBOW_PIN 9
+
+#define SHOULDER_DIRECTION_PIN 2
+#define SHOULDER_STEP_PIN 3
 
 #define CLAW_CODE 'C'
 #define WRIST_CODE 'W'
@@ -14,13 +18,17 @@ char text[numChars];
 bool newData = false;
 
 Servo clawServo, wristServo, elbowServo;
+DRV8825 shoulderStepper;
+const byte stepsPerAngle = 100;
+byte shoulderCurrentAngle = 0;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
   clawServo.attach(CLAW_PIN);
   wristServo.attach(WRIST_PIN);
   elbowServo.attach(ELBOW_PIN);
+  shoulderStepper.begin(SHOULDER_DIRECTION_PIN, SHOULDER_STEP_PIN);
 }
 
 void loop() {
@@ -35,8 +43,25 @@ void moveServo(Servo &servo, int angle) {
   servo.write(angle);
 }
 
-void moveStepper() {
+void moveStepper(byte angle) {
 
+  byte delta;
+
+  if (shoulderCurrentAngle < angle) {
+      shoulderStepper.setDirection(DRV8825_CLOCK_WISE);
+      delta = angle - shoulderCurrentAngle;
+  }
+  else {
+    shoulderStepper.setDirection(DRV8825_COUNTERCLOCK_WISE);
+    delta = shoulderCurrentAngle - angle;
+  }
+
+  for (; delta != 0; delta--) {
+      for (byte i = 0; i < stepsPerAngle; i++) {
+        shoulderStepper.step();
+        delay(1);
+      }
+    }
 }
 
 void readLine() {

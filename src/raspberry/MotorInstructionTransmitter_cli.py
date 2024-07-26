@@ -19,5 +19,17 @@ try:
 except ValueError:
     sys.exit(2)
 
+full_instruction = motor_code + str(angle)
+print('Full instruction is:', full_instruction)
 
-print('Full instruction is:', motor_code + str(angle))
+s = serial.Serial('/dev/ttyACM0', 115200)
+
+if s.isOpen():
+    s.close()
+s.open()
+
+s.write(full_instruction.encode())
+response = s.readLine()
+print(response.decode())
+
+s.close()
