@@ -1,0 +1,4 @@
+1. Dezvoltarea unui Brat Robotic Automatizat pentru Jocul de Sah
+2. Sistem Robotic Inteligent pentru Jocul de Sah
+3. Integrarea Inteligentei Artificiale intr-un Brat Robotic pentru Jocul de Sah
+4. Utilizarea Inteligentei Artificiale in Controlul unui Brat Robotic pentru Jocul de Sah
