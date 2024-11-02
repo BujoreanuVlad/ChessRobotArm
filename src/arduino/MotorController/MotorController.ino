@@ -41,19 +41,20 @@ void loop() {
 void moveServo(Servo &servo, int angle) {
 
   int currentAngle = servo.read();
+  const byte delayTime = 50;
 
   if (currentAngle < angle) {
 
     for (; currentAngle <= angle; currentAngle++) {
       servo.write(currentAngle);
-      delay(5);
+      delay(delayTime);
     }
   }
   else {
     
     for (; currentAngle >= angle; currentAngle--) {
       servo.write(currentAngle);
-      delay(5);
+      delay(delayTime);
     }
   }
 }
