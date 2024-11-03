@@ -59,9 +59,9 @@ void moveServo(Servo &servo, int angle) {
   }
 }
 
-void moveStepper(byte angle) {
+void moveStepper(int angle) {
 
-  byte delta;
+  int delta;
 
   if (shoulderCurrentAngle < angle) {
       shoulderStepper.setDirection(DRV8825_CLOCK_WISE);
@@ -120,6 +120,10 @@ void executeInstruction() {
       case ELBOW_CODE:
       Serial.println("Moving elbow");
         moveServo(elbowServo, angle);
+        break;
+      case SHOULDER_CODE:
+      Serial.println("Moving shoulder");
+        moveStepper(angle);
         break;
     }
 
