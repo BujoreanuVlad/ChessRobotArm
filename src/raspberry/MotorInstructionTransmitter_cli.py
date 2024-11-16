@@ -29,7 +29,7 @@ if s.isOpen():
 s.open()
 
 s.write(full_instruction.encode())
-response = s.readLine()
+response = s.readline()
 print(response.decode())
 
 s.close()

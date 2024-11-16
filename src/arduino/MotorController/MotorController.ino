@@ -40,7 +40,22 @@ void loop() {
 
 void moveServo(Servo &servo, int angle) {
 
-  servo.write(angle);
+  int currentAngle = servo.read();
+
+  if (currentAngle < angle) {
+
+    for (; currentAngle <= angle; currentAngle++) {
+      servo.write(currentAngle);
+      delay(5);
+    }
+  }
+  else {
+    
+    for (; currentAngle >= angle; currentAngle--) {
+      servo.write(currentAngle);
+      delay(5);
+    }
+  }
 }
 
 void moveStepper(byte angle) {
@@ -94,12 +109,15 @@ void executeInstruction() {
     switch(text[0]) {
 
       case CLAW_CODE:
+        Serial.println("Moving claw");
         moveServo(clawServo, angle);
         break;
       case WRIST_CODE:
+      Serial.println("Moving wrist");
         moveServo(wristServo, angle);
         break;
       case ELBOW_CODE:
+      Serial.println("Moving elbow");
         moveServo(elbowServo, angle);
         break;
     }
