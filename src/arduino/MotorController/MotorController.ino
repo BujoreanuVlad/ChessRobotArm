@@ -62,14 +62,17 @@ void moveServo(Servo &servo, int angle) {
 void moveStepper(int angle) {
 
   int delta;
+  byte sign;
 
   if (shoulderCurrentAngle < angle) {
       shoulderStepper.setDirection(DRV8825_CLOCK_WISE);
       delta = angle - shoulderCurrentAngle;
+      sign = 2; //Positive
   }
   else {
     shoulderStepper.setDirection(DRV8825_COUNTERCLOCK_WISE);
     delta = shoulderCurrentAngle - angle;
+    sign = 0 //Negative
   }
 
   for (; delta != 0; delta--) {
@@ -77,6 +80,8 @@ void moveStepper(int angle) {
         shoulderStepper.step();
         delay(1);
       }
+
+      shoulderCurrentAngle += sign - 1;
     }
 }
 
