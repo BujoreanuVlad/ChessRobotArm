@@ -19,7 +19,7 @@ bool newData = false;
 
 Servo clawServo, wristServo, elbowServo;
 DRV8825 shoulderStepper;
-const byte stepsPerAngle = 100;
+const byte stepsPerAngle = 45;
 byte shoulderCurrentAngle = 0;
 
 void setup() {
@@ -41,34 +41,38 @@ void loop() {
 void moveServo(Servo &servo, int angle) {
 
   int currentAngle = servo.read();
+  const byte delayTime = 50;
 
   if (currentAngle < angle) {
 
     for (; currentAngle <= angle; currentAngle++) {
       servo.write(currentAngle);
-      delay(5);
+      delay(delayTime);
     }
   }
   else {
     
     for (; currentAngle >= angle; currentAngle--) {
       servo.write(currentAngle);
-      delay(5);
+      delay(delayTime);
     }
   }
 }
 
-void moveStepper(byte angle) {
+void moveStepper(int angle) {
 
-  byte delta;
+  int delta;
+  byte sign;
 
   if (shoulderCurrentAngle < angle) {
       shoulderStepper.setDirection(DRV8825_CLOCK_WISE);
       delta = angle - shoulderCurrentAngle;
+      sign = 2; //Positive
   }
   else {
     shoulderStepper.setDirection(DRV8825_COUNTERCLOCK_WISE);
     delta = shoulderCurrentAngle - angle;
+    sign = 0; //Negative
   }
 
   for (; delta != 0; delta--) {
@@ -76,6 +80,8 @@ void moveStepper(byte angle) {
         shoulderStepper.step();
         delay(1);
       }
+
+      shoulderCurrentAngle += sign - 1;
     }
 }
 
@@ -119,6 +125,10 @@ void executeInstruction() {
       case ELBOW_CODE:
       Serial.println("Moving elbow");
         moveServo(elbowServo, angle);
+        break;
+      case SHOULDER_CODE:
+      Serial.println("Moving shoulder");
+        moveStepper(angle);
         break;
     }
 
