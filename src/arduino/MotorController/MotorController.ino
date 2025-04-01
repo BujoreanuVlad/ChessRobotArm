@@ -19,7 +19,7 @@ bool newData = false;
 
 Servo clawServo, wristServo, elbowServo;
 DRV8825 shoulderStepper;
-const byte stepsPerAngle = 100;
+const byte stepsPerAngle = 45;
 byte shoulderCurrentAngle = 0;
 
 void setup() {
@@ -72,7 +72,7 @@ void moveStepper(int angle) {
   else {
     shoulderStepper.setDirection(DRV8825_COUNTERCLOCK_WISE);
     delta = shoulderCurrentAngle - angle;
-    sign = 0 //Negative
+    sign = 0; //Negative
   }
 
   for (; delta != 0; delta--) {
