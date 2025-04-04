@@ -1,5 +1,6 @@
 #include <Servo.h>
 #include "DRV8825.h"
+#include <math.h>
 
 #define CLAW_PIN 5
 #define WRIST_PIN 6
@@ -22,6 +23,10 @@ DRV8825 shoulderStepper;
 const byte stepsPerAngle = 45;
 byte shoulderCurrentAngle = 0;
 
+const float upperArmLength = 28.7; // Length in cm
+const float forearmLength = 29.0; // Length in cm
+const float clawLength = 20.2; // Length in cm
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -38,9 +43,9 @@ void loop() {
   //setNumber();
 }
 
-void moveServo(Servo &servo, int angle) {
+void moveServo(Servo &servo, byte angle) {
 
-  int currentAngle = servo.read();
+  short currentAngle = servo.read(); //short to allow negative values for the second for loop
   const byte delayTime = 50;
 
   if (currentAngle < angle) {
@@ -59,9 +64,9 @@ void moveServo(Servo &servo, int angle) {
   }
 }
 
-void moveStepper(int angle) {
+void moveStepper(byte angle) {
 
-  int delta;
+  byte delta;
   byte sign;
 
   if (shoulderCurrentAngle < angle) {
@@ -83,6 +88,49 @@ void moveStepper(int angle) {
 
       shoulderCurrentAngle += sign - 1;
     }
+}
+
+// Function to convert (x, y, z) coordinates to the necessary angles. (Inverse kinematics)
+// x - direction towards the length of the chessboard, towards the other player
+// y - direction towards the width of the chessboard, to the left and right of both players
+// z - direction perpendicular to the chessboard, the altitude
+void coordsToAngles(float x, float y, float z, byte &baseAngle, byte &shoulderAngle, byte &elbowAngle, byte &wristAngle) {
+
+  if (x == 0) {
+    if (y > 0) {
+      baseAngle = 180;
+    }
+    else if (y == 0) {
+      baseAngle = 90;
+    }
+    else {
+      baseAngle = 0;
+    }
+  }
+  else {
+    
+    float baseAngleRadians = atan(y/x);
+    baseAngle = (byte) (baseAngleRadians * 180 / M_PI + 90);
+  }
+
+  float d = sqrt(x*x + y*y);
+  float L = sqrt(d*d + (z+clawLength)*(z+clawLength));
+
+  float theta1Prime = atan((z+clawLength) / d);
+
+  float s = (upperArmLength + forearmLength + L) / 2;
+  float area = sqrt(s * (s-upperArmLength) * (s-forearmLength) * (s-L));
+  float h = 2 * area / L;
+
+  float theta1Second = asin(h/upperArmLength);
+
+  shoulderAngle = (byte) ((theta1Prime + theta1Second) * 180 / M_PI);
+
+  float theta2 = acos((upperArmLength*upperArmLength + forearmLength*forearmLength - L*L) / (2*upperArmLength*forearmLength));
+  elbowAngle = (byte) (theta2 * 180 / M_PI);
+
+  wristAngle = 270 - shoulderAngle - elbowAngle;
+  
 }
 
 void readLine() {
