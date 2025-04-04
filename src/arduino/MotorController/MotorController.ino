@@ -5,6 +5,7 @@
 #define CLAW_PIN 5
 #define WRIST_PIN 6
 #define ELBOW_PIN 9
+#define BASE_PIN 10
 
 #define SHOULDER_DIRECTION_PIN 2
 #define SHOULDER_STEP_PIN 3
@@ -13,12 +14,13 @@
 #define WRIST_CODE 'W'
 #define ELBOW_CODE 'E'
 #define SHOULDER_CODE 'S'
+#define BASE_CODE 'B'
 
 const byte numChars = 10;
 char text[numChars];
 bool newData = false;
 
-Servo clawServo, wristServo, elbowServo;
+Servo clawServo, wristServo, elbowServo, baseServo;
 DRV8825 shoulderStepper;
 const byte stepsPerAngle = 45;
 byte shoulderCurrentAngle = 0;
@@ -33,6 +35,7 @@ void setup() {
   clawServo.attach(CLAW_PIN);
   wristServo.attach(WRIST_PIN);
   elbowServo.attach(ELBOW_PIN);
+  baseServo.attach(BASE_PIN);
   shoulderStepper.begin(SHOULDER_DIRECTION_PIN, SHOULDER_STEP_PIN);
 }
 
@@ -133,6 +136,54 @@ void coordsToAngles(float x, float y, float z, byte &baseAngle, byte &shoulderAn
   
 }
 
+void anglesToCoords(byte baseAngle, byte shoulderAngle, byte elbowAngle, byte wristAngle, float &x, float &y, float &z) {
+
+  float baseAngleRadians = (float) baseAngle * M_PI / 180;
+  float shoulderAngleRadians = (float) shoulderAngle * M_PI / 180;
+  float elbowAngleRadians = (float) elbowAngle * M_PI / 180;
+
+  float d = cos(shoulderAngleRadians) * upperArmLength + sin(shoulderAngleRadians + elbowAngleRadians - M_PI_2) * forearmLength;
+  z = sin(shoulderAngleRadians) * upperArmLength - cos(shoulderAngleRadians + elbowAngleRadians - M_PI_2) * forearmLength - clawLength;
+
+  y = sin(baseAngleRadians - M_PI_2) * d;
+  x = cos(baseAngleRadians - M_PI_2) * d;
+}
+
+void moveVertical(float finalZ) {
+
+  float x, y, z;
+
+  byte baseAngle = baseServo.read();
+  byte shoulderAngle = shoulderCurrentAngle;
+  byte elbowAngle = elbowServo.read();
+  byte wristAngle = wristServo.read();
+
+  anglesToCoords(baseAngle, shoulderAngle, elbowAngle, wristAngle, x, y, z);
+
+  const float granularity = 0.1;
+
+  if (finalZ > z) {
+
+    for (; z <= finalZ; z += granularity) {
+      coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
+      moveServo(baseServo, baseAngle);
+      moveStepper(shoulderAngle);
+      moveServo(elbowServo, elbowAngle);
+      moveServo(wristServo, wristAngle);
+    }
+  }
+  else {
+    for (; z >= finalZ; z -= granularity) {
+      coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
+      moveServo(baseServo, baseAngle);
+      moveStepper(shoulderAngle);
+      moveServo(elbowServo, elbowAngle);
+      moveServo(wristServo, wristAngle);
+    }
+  }
+  
+}
+
 void readLine() {
 
   static byte i=0;
@@ -158,7 +209,7 @@ void executeInstruction() {
 
   if (newData) {
 
-    int angle = atoi(text+1);
+    byte angle = (byte) atoi(text+1);
 
     switch(text[0]) {
 
@@ -167,16 +218,20 @@ void executeInstruction() {
         moveServo(clawServo, angle);
         break;
       case WRIST_CODE:
-      Serial.println("Moving wrist");
+        Serial.println("Moving wrist");
         moveServo(wristServo, angle);
         break;
       case ELBOW_CODE:
-      Serial.println("Moving elbow");
+        Serial.println("Moving elbow");
         moveServo(elbowServo, angle);
         break;
       case SHOULDER_CODE:
-      Serial.println("Moving shoulder");
+        Serial.println("Moving shoulder");
         moveStepper(angle);
+        break;
+      case BASE_CODE:
+        Serial.println("Moving base");
+        moveServo(baseServo, angle);
         break;
     }
 
