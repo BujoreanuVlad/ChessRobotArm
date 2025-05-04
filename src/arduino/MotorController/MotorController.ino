@@ -2,6 +2,8 @@
 #include "DRV8825.h"
 #include <math.h>
 
+#define SWITCH_PIN 4
+
 #define CLAW_PIN 5
 #define WRIST_PIN 6
 #define ELBOW_PIN 9
@@ -16,6 +18,8 @@
 #define SHOULDER_CODE 'S'
 #define BASE_CODE 'B'
 
+#define CALIBRATE_CODE 'c'
+
 const byte numChars = 10;
 char text[numChars];
 bool newData = false;
@@ -23,7 +27,7 @@ bool newData = false;
 Servo clawServo, wristServo, elbowServo, baseServo;
 DRV8825 shoulderStepper;
 const byte stepsPerAngle = 45;
-byte shoulderCurrentAngle = 0;
+byte shoulderCurrentAngle = 180;
 
 const float upperArmLength = 28.7; // Length in cm
 const float forearmLength = 29.0; // Length in cm
@@ -37,6 +41,7 @@ void setup() {
   elbowServo.attach(ELBOW_PIN);
   baseServo.attach(BASE_PIN);
   shoulderStepper.begin(SHOULDER_DIRECTION_PIN, SHOULDER_STEP_PIN);
+  pinMode(SWITCH_PIN, INPUT);
 }
 
 void loop() {
@@ -44,6 +49,25 @@ void loop() {
   readLine();
   executeInstruction();
   //setNumber();
+}
+
+void calibrate() {
+
+  moveServo(baseServo, 90);
+  moveServo(elbowServo, 60);
+  moveServo(wristServo, 90);
+
+  shoulderStepper.setDirection(DRV8825_CLOCK_WISE);
+
+  while (digitalRead(SWITCH_PIN) == 0) {
+    shoulderStepper.step();
+    delay(1);
+  }
+
+  shoulderCurrentAngle = 180;
+  delay(50);
+
+  moveStepper(135);
 }
 
 void moveServo(Servo &servo, byte angle) {
@@ -232,6 +256,10 @@ void executeInstruction() {
       case BASE_CODE:
         Serial.println("Moving base");
         moveServo(baseServo, angle);
+        break;
+      case CALIBRATE_CODE:
+        Serial.println("Calibrating");
+        calibrate();
         break;
     }
 
