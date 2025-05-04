@@ -39,7 +39,7 @@ void setup() {
   clawServo.attach(CLAW_PIN);
   wristServo.attach(WRIST_PIN);
   elbowServo.attach(ELBOW_PIN);
-  baseServo.attach(BASE_PIN);
+  baseServo.attach(BASE_PIN, 647, 2400);
   shoulderStepper.begin(SHOULDER_DIRECTION_PIN, SHOULDER_STEP_PIN);
   pinMode(SWITCH_PIN, INPUT);
 }
@@ -73,7 +73,7 @@ void calibrate() {
 void moveServo(Servo &servo, byte angle) {
 
   short currentAngle = servo.read(); //short to allow negative values for the second for loop
-  const byte delayTime = 50;
+  const byte delayTime = 25;
 
   if (currentAngle < angle) {
 
