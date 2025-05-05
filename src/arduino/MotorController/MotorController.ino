@@ -19,6 +19,7 @@
 #define BASE_CODE 'B'
 
 #define CALIBRATE_CODE 'c'
+#define VERTICAL_CODE 'v'
 
 const byte numChars = 10;
 char text[numChars];
@@ -26,8 +27,8 @@ bool newData = false;
 
 Servo clawServo, wristServo, elbowServo, baseServo;
 DRV8825 shoulderStepper;
-const byte stepsPerAngle = 45;
-byte shoulderCurrentAngle = 180;
+const byte stepsPerAngle = 44;
+byte shoulderCurrentAngle = 135;
 
 const float upperArmLength = 28.7; // Length in cm
 const float forearmLength = 29.0; // Length in cm
@@ -39,7 +40,8 @@ void setup() {
   clawServo.attach(CLAW_PIN);
   wristServo.attach(WRIST_PIN);
   elbowServo.attach(ELBOW_PIN);
-  baseServo.attach(BASE_PIN, 647, 2400);
+  //baseServo.attach(BASE_PIN, 647, 2400);
+  baseServo.attach(BASE_PIN);
   shoulderStepper.begin(SHOULDER_DIRECTION_PIN, SHOULDER_STEP_PIN);
   pinMode(SWITCH_PIN, INPUT);
 }
@@ -54,8 +56,6 @@ void loop() {
 void calibrate() {
 
   moveServo(baseServo, 90);
-  moveServo(elbowServo, 60);
-  moveServo(wristServo, 90);
 
   shoulderStepper.setDirection(DRV8825_CLOCK_WISE);
 
@@ -173,6 +173,14 @@ void anglesToCoords(byte baseAngle, byte shoulderAngle, byte elbowAngle, byte wr
   x = cos(baseAngleRadians - M_PI_2) * d;
 }
 
+bool checkValidAngles(const byte baseAngle, const byte shoulderAngle, const byte elbowAngle, const byte wristAngle) {
+
+  return (baseAngle >=0 && baseAngle <= 180) &&
+         (shoulderAngle >= 0 && shoulderAngle <= 180) &&
+         (elbowAngle >= 55 && elbowAngle <= 180) &&
+         (wristAngle >= 60 && wristAngle <= 180);
+}
+
 void moveVertical(float finalZ) {
 
   float x, y, z;
@@ -189,20 +197,49 @@ void moveVertical(float finalZ) {
   if (finalZ > z) {
 
     for (; z <= finalZ; z += granularity) {
+      
       coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
-      moveServo(baseServo, baseAngle);
-      moveStepper(shoulderAngle);
-      moveServo(elbowServo, elbowAngle);
-      moveServo(wristServo, wristAngle);
+
+        
+//      Serial.println(baseAngle);
+//      Serial.println(shoulderAngle);
+//      Serial.println(elbowAngle);
+//      Serial.println(wristAngle);
+      
+      if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle))
+          {
+            moveServo(baseServo, baseAngle);
+            moveStepper(shoulderAngle);
+            moveServo(elbowServo, elbowAngle);
+            moveServo(wristServo, wristAngle);
+      }
+      else {
+        return;
+      }
     }
   }
   else {
     for (; z >= finalZ; z -= granularity) {
+      
       coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
-      moveServo(baseServo, baseAngle);
-      moveStepper(shoulderAngle);
-      moveServo(elbowServo, elbowAngle);
-      moveServo(wristServo, wristAngle);
+
+  
+//      Serial.println(baseAngle);
+//      Serial.println(shoulderAngle);
+//      Serial.println(elbowAngle);
+//      Serial.println(wristAngle);
+      
+      if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle))
+          {
+            Serial.println("Moving");
+            moveServo(baseServo, baseAngle);
+            moveStepper(shoulderAngle);
+            moveServo(elbowServo, elbowAngle);
+            moveServo(wristServo, wristAngle);
+      }
+      else {
+        return;
+      }
     }
   }
   
@@ -233,34 +270,47 @@ void executeInstruction() {
 
   if (newData) {
 
-    byte angle = (byte) atoi(text+1);
-
-    switch(text[0]) {
-
-      case CLAW_CODE:
-        Serial.println("Moving claw");
-        moveServo(clawServo, angle);
-        break;
-      case WRIST_CODE:
-        Serial.println("Moving wrist");
-        moveServo(wristServo, angle);
-        break;
-      case ELBOW_CODE:
-        Serial.println("Moving elbow");
-        moveServo(elbowServo, angle);
-        break;
-      case SHOULDER_CODE:
-        Serial.println("Moving shoulder");
-        moveStepper(angle);
-        break;
-      case BASE_CODE:
-        Serial.println("Moving base");
-        moveServo(baseServo, angle);
-        break;
-      case CALIBRATE_CODE:
-        Serial.println("Calibrating");
-        calibrate();
-        break;
+    if (isLowerCase(text[0])) {
+  
+      switch(text[0]) {
+        
+        case CALIBRATE_CODE:
+          Serial.println("Calibrating");
+          calibrate();
+          break;
+        case VERTICAL_CODE:
+          float z = (float) atof(text+1);
+          moveVertical(z);
+          break;
+      }
+    }
+    else {
+  
+      byte angle = (byte) atoi(text+1);
+  
+      switch(text[0]) {
+  
+        case CLAW_CODE:
+          Serial.println("Moving claw");
+          moveServo(clawServo, angle);
+          break;
+        case WRIST_CODE:
+          Serial.println("Moving wrist");
+          moveServo(wristServo, angle);
+          break;
+        case ELBOW_CODE:
+          Serial.println("Moving elbow");
+          moveServo(elbowServo, angle);
+          break;
+        case SHOULDER_CODE:
+          Serial.println("Moving shoulder");
+          moveStepper(angle);
+          break;
+        case BASE_CODE:
+          Serial.println("Moving base");
+          moveServo(baseServo, angle);
+          break;
+      }
     }
 
     newData = false;
