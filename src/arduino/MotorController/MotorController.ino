@@ -21,6 +21,8 @@
 #define CALIBRATE_CODE 'c'
 #define VERTICAL_CODE 'v'
 #define HORIZONTAL_CODE 'h'
+#define INIT_CODE 'i'
+#define BOARD_CODE 'b'
 
 const byte numChars = 10;
 char text[numChars];
@@ -34,6 +36,11 @@ byte shoulderCurrentAngle = 135;
 const float upperArmLength = 28.7; // Length in cm
 const float forearmLength = 29.0; // Length in cm
 const float clawLength = 20.2; // Length in cm
+
+float boardLength;
+float boardXOffset;
+float boardYOffset;
+float boardHeight;
 
 void setup() {
   // put your setup code here, to run once:
@@ -309,6 +316,58 @@ void moveHorizontal(float finalX, float finalY) {
   }
 }
 
+void liftArm() {
+  moveVertical(10);
+}
+
+void lowerArm() {
+  moveVertical(-3);
+}
+
+void openClaw() {
+  moveServo(clawServo, 85);
+}
+
+void closeClaw() {
+  moveServo(clawServo, 95);
+}
+
+void defaultPosition() {
+
+  liftArm();
+  moveHorizontal(3, 0);
+  moveVertical(5);
+}
+
+void makeMove(byte col1, byte line1, byte col2, byte line2) {
+
+  liftArm();
+
+  float boardCellLength = boardLength / 8;
+
+  float x = boardXOffset + boardCellLength / 2 + boardCellLength * (line1-1);
+  float y = boardYOffset + boardCellLength / 2 + boardCellLength * (col1-1);
+
+  moveHorizontal(x, y);
+
+  openClaw();
+  lowerArm();
+  closeClaw();
+  liftArm();
+
+  x = boardXOffset + boardCellLength / 2 + boardCellLength * (line2-1);
+  y = boardYOffset + boardCellLength / 2 + boardCellLength * (col2-1);
+
+  moveHorizontal(x, y);
+
+  lowerArm();
+  openClaw();
+  liftArm();
+  closeClaw();
+
+  defaultPosition();
+}
+
 void readLine() {
 
   static byte i=0;
@@ -335,7 +394,10 @@ void executeInstruction() {
   if (newData) {
 
     if (isLowerCase(text[0])) {
-  
+
+      char* buff;
+      float x, y, z;
+    
       switch(text[0]) {
         
         case CALIBRATE_CODE:
@@ -343,17 +405,43 @@ void executeInstruction() {
           calibrate();
           break;
         case VERTICAL_CODE:
-          float z = (float) atof(text+1);
+          z = (float) atof(text+1);
           moveVertical(z);
           break;
         case HORIZONTAL_CODE:
-          char buff = strtok(text+1, ";");
-          float x = atof(buff);
+          buff = strtok(text+1, ";\n");
+          x = atof(buff);
           
-          buff = strtok(NULL, ";");
-          float y = atof(buff);
+          buff = strtok(NULL, ";\n");
+          y = atof(buff);
 
           moveHorizontal(x, y);
+          
+          break;
+          
+        case INIT_CODE:
+
+          buff = strtok(text+1, ";\n");
+          boardLength = atof(buff);
+          
+          buff = strtok(NULL, ";\n");
+          boardXOffset = atof(buff);
+          
+          buff = strtok(NULL, ";\n");
+          boardYOffset = atof(buff);
+          
+          buff = strtok(NULL, ";\n");
+          boardHeight = atof(buff);
+
+          break;
+          
+        case BOARD_CODE:
+        
+          char col1 = text[1];
+          char line1 = text[2];
+
+          char col2 = text[3];
+          char col3 = text[4];
           
           break;
       }
