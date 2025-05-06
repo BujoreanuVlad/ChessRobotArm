@@ -20,6 +20,7 @@
 
 #define CALIBRATE_CODE 'c'
 #define VERTICAL_CODE 'v'
+#define HORIZONTAL_CODE 'h'
 
 const byte numChars = 10;
 char text[numChars];
@@ -245,6 +246,69 @@ void moveVertical(float finalZ) {
   
 }
 
+void moveHorizontal(float finalX, float finalY) {
+
+  float x, y, z;
+
+  byte baseAngle = baseServo.read();
+  byte shoulderAngle = shoulderCurrentAngle;
+  byte elbowAngle = elbowServo.read();
+  byte wristAngle = wristServo.read();
+
+  anglesToCoords(baseAngle, shoulderAngle, elbowAngle, wristAngle, x, y, z);
+
+  const float granularity = 0.1;
+
+  if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle)) {
+    moveServo(baseServo, baseAngle);
+  }
+  else
+    return;
+
+  float distance = sqrt((finalX - x)*(finalX - x) + (finalY - y)*(finalY - y));
+  float angle;
+
+  if (finalX - x == 0) {
+
+    if (finalY > y)
+      angle = 180;
+     else
+      angle = 0;
+  }
+  else {
+    
+    angle = atan((finalX - x) / (finalY - y));
+
+    if (finalX > x && finalY < y)
+      angle += M_PI;
+  }
+
+  for (; distance >= 0; distance -= granularity) {
+
+    x += granularity * sin(angle);
+    y += granularity * cos(angle);
+    
+    coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
+
+      
+//      Serial.println(baseAngle);
+//      Serial.println(shoulderAngle);
+//      Serial.println(elbowAngle);
+//      Serial.println(wristAngle);
+    
+    if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle))
+        {
+          moveServo(baseServo, baseAngle);
+          moveStepper(shoulderAngle);
+          moveServo(elbowServo, elbowAngle);
+          moveServo(wristServo, wristAngle);
+    }
+    else {
+      return;
+    }
+  }
+}
+
 void readLine() {
 
   static byte i=0;
@@ -281,6 +345,16 @@ void executeInstruction() {
         case VERTICAL_CODE:
           float z = (float) atof(text+1);
           moveVertical(z);
+          break;
+        case HORIZONTAL_CODE:
+          char buff = strtok(text+1, ";");
+          float x = atof(buff);
+          
+          buff = strtok(NULL, ";");
+          float y = atof(buff);
+
+          moveHorizontal(x, y);
+          
           break;
       }
     }
