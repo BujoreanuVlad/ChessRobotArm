@@ -1653,16 +1653,6 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 142.24) (xy 156.21 142.24)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "18a6de3a-ed33-4e91-aa5f-d949116eadea")
-	)
-	(wire
-		(pts
 			(xy 105.41 92.71) (xy 120.65 92.71)
 		)
 		(stroke
@@ -1740,6 +1730,16 @@
 			(type default)
 		)
 		(uuid "30c5636e-e655-4b4a-923d-2b45273ab765")
+	)
+	(wire
+		(pts
+			(xy 129.54 135.89) (xy 129.54 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "371416e6-9ff7-465b-826b-8110d7f033b1")
 	)
 	(wire
 		(pts
@@ -1913,23 +1913,13 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 142.24) (xy 147.32 142.24)
+			(xy 143.51 142.24) (xy 156.21 142.24)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "6fa88748-072e-499e-a537-4d6852e7fc99")
-	)
-	(wire
-		(pts
-			(xy 129.54 135.89) (xy 129.54 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "701ce8e2-42f5-4134-a5b0-5ecdf4c4f1ce")
 	)
 	(wire
 		(pts
@@ -2734,74 +2724,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 160.02 142.24 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3196ed90-b232-4c81-8ffb-4cf7f51b0296")
-		(property "Reference" "R17"
-			(at 160.02 135.89 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10R"
-			(at 160.02 138.43 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 160.02 140.462 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 160.02 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 160.02 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4a375900-f935-4f04-8dcf-49cadf4ebf70")
-		)
-		(pin "2"
-			(uuid "f1416866-c877-4e5f-8eaa-177341bdd48c")
-		)
-		(instances
-			(project "raspberry_schematic"
-				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
-					(reference "R17")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 167.64 152.4 0)
 		(unit 1)
@@ -2939,6 +2861,73 @@
 			(project ""
 				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
 					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 129.54 132.08 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4079f908-5638-4536-b81f-090668d5b508")
+		(property "Reference" "R18"
+			(at 124.46 131.064 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "15R"
+			(at 127 131.064 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 131.318 132.08 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 129.54 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 129.54 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "676fe68f-41d7-479c-a80b-294322eae4ca")
+		)
+		(pin "2"
+			(uuid "d4a34756-8340-4b82-8131-3c222f4492da")
+		)
+		(instances
+			(project "raspberry_schematic"
+				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -3235,74 +3224,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 151.13 142.24 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "626edc0b-cb4d-4e77-9e73-a73b75e314df")
-		(property "Reference" "R7"
-			(at 151.13 135.89 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10R"
-			(at 151.13 138.43 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 151.13 140.462 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 151.13 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 151.13 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "24bcadfc-e6f4-48dc-bd5f-6ea82ddf97c5")
-		)
-		(pin "2"
-			(uuid "b31d89b5-f323-42c2-83b8-f24a02fd84c5")
-		)
-		(instances
-			(project "raspberry_schematic"
-				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
-					(reference "R7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:LED")
 		(at 209.55 71.12 180)
 		(unit 1)
@@ -3518,76 +3439,6 @@
 			(project ""
 				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
 					(reference "D3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 129.54 140.97 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "76480017-07d9-4b66-b7b0-42204fbb8f78")
-		(property "Reference" "R19"
-			(at 132.08 139.6999 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10R"
-			(at 132.08 142.2399 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 127.762 140.97 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 129.54 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 129.54 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "590d70f3-1260-43c0-a102-e5cfa6c2f399")
-		)
-		(pin "2"
-			(uuid "3892db9c-4fd6-4023-ab61-5cb5426a1f2b")
-		)
-		(instances
-			(project "raspberry_schematic"
-				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
-					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -3910,76 +3761,6 @@
 			(project ""
 				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
 					(reference "J1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 129.54 132.08 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "89281707-567e-4e40-835f-048b9818d6d3")
-		(property "Reference" "R18"
-			(at 132.08 130.8099 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10R"
-			(at 132.08 133.3499 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 127.762 132.08 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 129.54 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 129.54 132.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "97b838bc-9097-4381-a092-1f84031a5630")
-		)
-		(pin "2"
-			(uuid "4915bcec-a188-4089-bcf8-b26240c11bd3")
-		)
-		(instances
-			(project "raspberry_schematic"
-				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
-					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -4395,6 +4176,73 @@
 			(project "raspberry_schematic"
 				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
 					(reference "R4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 160.02 142.24 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c13f9292-1df7-4e3a-a7ba-88c716f8c1f9")
+		(property "Reference" "R17"
+			(at 161.036 137.16 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "15R"
+			(at 161.036 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 160.02 144.018 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 160.02 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 160.02 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e9cc1772-4327-4256-997f-6e37fd51480f")
+		)
+		(pin "2"
+			(uuid "9fbe2084-c8d5-4663-92ee-73be5417499f")
+		)
+		(instances
+			(project "raspberry_schematic"
+				(path "/b388c4a0-17e4-4175-bd7c-8be91d2c0837"
+					(reference "R17")
 					(unit 1)
 				)
 			)
