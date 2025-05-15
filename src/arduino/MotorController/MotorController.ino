@@ -437,11 +437,13 @@ void executeInstruction() {
           
         case BOARD_CODE:
         
-          char col1 = text[1];
-          char line1 = text[2];
+          byte col1 = (byte) text[1];
+          byte line1 = (byte) text[2];
 
-          char col2 = text[3];
-          char col3 = text[4];
+          byte col2 = (byte) text[3];
+          byte line2 = (byte) text[4];
+
+          makeMove(col1, line1, col2, line2);
           
           break;
       }
