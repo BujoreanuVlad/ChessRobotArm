@@ -125,6 +125,12 @@ class RobotState(object):
             GPIO.output(RobotState.WINNER_BLACK_LED_PIN, GPIO.LOW)
             GPIO.output(RobotState.WINNER_DRAW_LED_PIN, GPIO.HIGH)
 
+    def isLEDOn(self, ledPin: int):
+        
+        state = GPIO.input(ledPin)
+
+        return state
+
 
     def __del__(self):
         print("Destructor")
