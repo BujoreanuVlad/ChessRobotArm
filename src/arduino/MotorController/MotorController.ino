@@ -266,11 +266,11 @@ void moveHorizontal(float finalX, float finalY) {
 
   const float granularity = 0.1;
 
-  if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle)) {
-    moveServo(baseServo, baseAngle);
-  }
-  else
-    return;
+//  if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle)) {
+//    moveServo(baseServo, baseAngle);
+//  }
+//  else
+//    return;
 
   float distance = sqrt((finalX - x)*(finalX - x) + (finalY - y)*(finalY - y));
   float angle;
@@ -278,9 +278,15 @@ void moveHorizontal(float finalX, float finalY) {
   if (finalX - x == 0) {
 
     if (finalY > y)
-      angle = 180;
+      angle = M_PI;
      else
       angle = 0;
+  }
+  else if (finalY - y == 0) {
+    if (finalX > x)
+      angle = M_PI_2;
+    else
+      angle = -M_PI_2;
   }
   else {
     
