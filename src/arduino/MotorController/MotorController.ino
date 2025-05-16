@@ -73,7 +73,7 @@ void calibrate() {
   }
 
   shoulderCurrentAngle = 180;
-  delay(50);
+  delay(75);
 
   moveStepper(135);
 }
