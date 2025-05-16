@@ -5,7 +5,7 @@ from robotState import RobotState
 robotState = RobotState()
 arduinoController = ArduinoController()
 
-boardMeasurements = [0, 0, 0, 0]
+boardMeasurements = [31.6, 11, 0, 0.1]
 
 robotState.registerAction(RobotState.CALIBRATE_ACTION, lambda x: arduinoController.calibrate(boardMeasurements[0], boardMeasurements[1], boardMeasurements[2], boardMeasurements[3]))
 
