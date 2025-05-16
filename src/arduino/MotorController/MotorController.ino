@@ -292,8 +292,8 @@ void moveHorizontal(float finalX, float finalY) {
     
     angle = atan((finalX - x) / (finalY - y));
 
-    if (finalX > x && finalY < y)
-      angle += M_PI;
+    if (finalY < y)
+      angle = M_PI - angle;
   }
 
   for (; distance >= 0; distance -= granularity) {
