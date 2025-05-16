@@ -6,7 +6,8 @@ class ArduinoController(object):
         if not hasattr(cls, 'singleton_instance'):
             cls.singleton_instance = super(ArduinoController, cls).__new__(cls)
             cls.singleton_instance.arduino = serial.Serial('/dev/ttyACM0', 115200)
-            cls.singleton_instance.arduino.open()
+            if not cls.singleton_instance.arduino.isOpen():
+                cls.singleton_instance.arduino.open()
 
         return cls.singleton_instance
 

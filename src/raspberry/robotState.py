@@ -57,7 +57,7 @@ class RobotState(object):
 
     def registerAction(self, button: int, buttonFunction: Callable[[int], None]):
         
-        if button == RobotState.CALIBRATION_ACTION:
+        if button == RobotState.CALIBRATE_ACTION:
             GPIO.add_event_detect(RobotState.CALIBRATE_BUTTON_PIN, GPIO.RISING, callback=buttonFunction, bouncetime=200)
         elif button == RobotState.SIDE_ACTION:
             GPIO.add_event_detect(RobotState.SIDE_BUTTON_PIN, GPIO.RISING, callback=buttonFunction, bouncetime=200)
