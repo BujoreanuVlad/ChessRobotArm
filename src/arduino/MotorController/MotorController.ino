@@ -290,16 +290,16 @@ void moveHorizontal(float finalX, float finalY) {
   }
   else {
     
-    angle = atan((finalX - x) / (finalY - y));
+    angle = atan(-(finalX - x) / (finalY - y));
 
-    if (finalY < y)
-      angle = M_PI - angle;
+    if (finalX < x && finalY > y)
+      angle += M_PI;
   }
 
   for (; distance >= 0; distance -= granularity) {
 
     x += granularity * sin(angle);
-    y += granularity * cos(angle);
+    y -= granularity * cos(angle);
     
     coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
 
