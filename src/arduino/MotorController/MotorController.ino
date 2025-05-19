@@ -24,7 +24,7 @@
 #define INIT_CODE 'i'
 #define BOARD_CODE 'b'
 
-const byte numChars = 10;
+const byte numChars = 32;
 char text[numChars];
 bool newData = false;
 
