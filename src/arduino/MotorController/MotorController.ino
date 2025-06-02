@@ -165,7 +165,9 @@ void coordsToAngles(float x, float y, float z, byte &baseAngle, byte &shoulderAn
   float theta2 = acos((upperArmLength*upperArmLength + forearmLength*forearmLength - L*L) / (2*upperArmLength*forearmLength));
   elbowAngle = (byte) (theta2 * 180 / M_PI);
 
-  wristAngle = 270 - shoulderAngle - elbowAngle;
+  const byte wristError = 7; //degrees
+
+  wristAngle = 270 - shoulderAngle - elbowAngle + wristError;
   
 }
 
@@ -328,7 +330,7 @@ void liftArm() {
 }
 
 void lowerArm() {
-  moveVertical(-3);
+  moveVertical(0.5);
 }
 
 void openClaw() {
