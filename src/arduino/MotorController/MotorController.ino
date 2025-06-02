@@ -444,11 +444,11 @@ void executeInstruction() {
           
         case BOARD_CODE:
         
-          byte col1 = (byte) text[1];
-          byte line1 = (byte) text[2];
+          byte col1 = (byte) text[1] - 48;
+          byte line1 = (byte) text[2] - 48;
 
-          byte col2 = (byte) text[3];
-          byte line2 = (byte) text[4];
+          byte col2 = (byte) text[3] - 48;
+          byte line2 = (byte) text[4] - 48;
 
           makeMove(col1, line1, col2, line2);
           
