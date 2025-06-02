@@ -195,6 +195,7 @@ bool checkValidAngles(const byte baseAngle, const byte shoulderAngle, const byte
 void moveVertical(float finalZ) {
 
   float x, y, z;
+  float initZ;
 
   byte baseAngle = baseServo.read();
   byte shoulderAngle = shoulderCurrentAngle;
@@ -203,62 +204,36 @@ void moveVertical(float finalZ) {
 
   anglesToCoords(baseAngle, shoulderAngle, elbowAngle, wristAngle, x, y, z);
 
-  const float granularity = 0.1;
+  initZ = z;
 
-  if (finalZ > z) {
+  const float steps = 100;
 
-    for (; z <= finalZ; z += granularity) {
-      
-      coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
+  for (int i = 0; i <= steps; i++) {
 
-        
-//      Serial.println(baseAngle);
-//      Serial.println(shoulderAngle);
-//      Serial.println(elbowAngle);
-//      Serial.println(wristAngle);
-      
-      if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle))
-          {
-            moveServo(baseServo, baseAngle);
-            moveStepper(shoulderAngle);
-            moveServo(elbowServo, elbowAngle);
-            moveServo(wristServo, wristAngle);
-      }
-      else {
-        return;
-      }
+    float t = (float) i / steps;
+
+    t = (1 - cos(t * M_PI)) / 2;
+
+    z = initZ + (finalZ - initZ) * t;
+
+    coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
+  
+    if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle)) {
+          moveServo(baseServo, baseAngle);
+          moveStepper(shoulderAngle);
+          moveServo(elbowServo, elbowAngle);
+          moveServo(wristServo, wristAngle);
+    }
+    else {
+      return;
     }
   }
-  else {
-    for (; z >= finalZ; z -= granularity) {
-      
-      coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
-
-  
-//      Serial.println(baseAngle);
-//      Serial.println(shoulderAngle);
-//      Serial.println(elbowAngle);
-//      Serial.println(wristAngle);
-      
-      if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle))
-          {
-            Serial.println("Moving");
-            moveServo(baseServo, baseAngle);
-            moveStepper(shoulderAngle);
-            moveServo(elbowServo, elbowAngle);
-            moveServo(wristServo, wristAngle);
-      }
-      else {
-        return;
-      }
-    }
-  }
-  
 }
 
 void moveHorizontal(float finalX, float finalY) {
 
   float x, y, z;
+  float initX, initY;
 
   byte baseAngle = baseServo.read();
   byte shoulderAngle = shoulderCurrentAngle;
@@ -267,53 +242,23 @@ void moveHorizontal(float finalX, float finalY) {
 
   anglesToCoords(baseAngle, shoulderAngle, elbowAngle, wristAngle, x, y, z);
 
-  const float granularity = 0.1;
+  initX = x;
+  initY = y;
 
-//  if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle)) {
-//    moveServo(baseServo, baseAngle);
-//  }
-//  else
-//    return;
+  const float steps = 100;
 
-  float distance = sqrt((finalX - x)*(finalX - x) + (finalY - y)*(finalY - y));
-  float angle;
+  for (int i = 0; i <= steps; i++) {
 
-  if (finalX - x == 0) {
+    float t = (float) i / steps;
 
-    if (finalY > y)
-      angle = M_PI;
-     else
-      angle = 0;
-  }
-  else if (finalY - y == 0) {
-    if (finalX > x)
-      angle = M_PI_2;
-    else
-      angle = -M_PI_2;
-  }
-  else {
-    
-    angle = atan(-(finalX - x) / (finalY - y));
+    t = (1 - cos(t * M_PI)) / 2;
 
-    if (finalY > y)
-      angle += M_PI;
-  }
+    x = initX + (finalX - initX) * t;
+    y = initY + (finalY - initY) * t;
 
-  for (; distance >= 0; distance -= granularity) {
-
-    x += granularity * sin(angle);
-    y -= granularity * cos(angle);
-    
     coordsToAngles(x, y, z, baseAngle, shoulderAngle, elbowAngle, wristAngle);
-
-      
-//      Serial.println(baseAngle);
-//      Serial.println(shoulderAngle);
-//      Serial.println(elbowAngle);
-//      Serial.println(wristAngle);
-    
-    if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle))
-        {
+  
+    if (checkValidAngles(baseAngle, shoulderAngle, elbowAngle, wristAngle)) {
           moveServo(baseServo, baseAngle);
           moveStepper(shoulderAngle);
           moveServo(elbowServo, elbowAngle);
