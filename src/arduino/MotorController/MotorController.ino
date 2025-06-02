@@ -37,10 +37,10 @@ const float upperArmLength = 28.7; // Length in cm
 const float forearmLength = 29.0; // Length in cm
 const float clawLength = 20.2; // Length in cm
 
-float boardLength;
-float boardXOffset;
-float boardYOffset;
-float boardHeight;
+float boardLength; // Measured in cm
+float boardXOffset; // Measured in cm to the edge of the board
+float boardYOffset; // Measured in cm from the center of the board
+float boardHeight; // Measured in cm
 
 void setup() {
   // put your setup code here, to run once:
@@ -292,7 +292,7 @@ void moveHorizontal(float finalX, float finalY) {
     
     angle = atan(-(finalX - x) / (finalY - y));
 
-    if (finalX < x && finalY > y)
+    if (finalY > y)
       angle += M_PI;
   }
 
@@ -341,7 +341,7 @@ void closeClaw() {
 void defaultPosition() {
 
   liftArm();
-  moveHorizontal(3, 0);
+  moveHorizontal(18, 0);
   moveVertical(5);
 }
 
@@ -352,7 +352,7 @@ void makeMove(byte col1, byte line1, byte col2, byte line2) {
   float boardCellLength = boardLength / 8;
 
   float x = boardXOffset + boardCellLength / 2 + boardCellLength * (line1-1);
-  float y = boardYOffset + boardCellLength / 2 + boardCellLength * (col1-1);
+  float y = boardYOffset + boardCellLength / 2 + boardCellLength * (col1-1 - 4); //-4 to measure from center of board
 
   moveHorizontal(x, y);
 
@@ -362,7 +362,7 @@ void makeMove(byte col1, byte line1, byte col2, byte line2) {
   liftArm();
 
   x = boardXOffset + boardCellLength / 2 + boardCellLength * (line2-1);
-  y = boardYOffset + boardCellLength / 2 + boardCellLength * (col2-1);
+  y = boardYOffset + boardCellLength / 2 + boardCellLength * (col2-1 - 4); //-4 to measure from center of board
 
   moveHorizontal(x, y);
 
