@@ -165,7 +165,7 @@ void coordsToAngles(float x, float y, float z, byte &baseAngle, byte &shoulderAn
   float theta2 = acos((upperArmLength*upperArmLength + forearmLength*forearmLength - L*L) / (2*upperArmLength*forearmLength));
   elbowAngle = (byte) (theta2 * 180 / M_PI);
 
-  const byte wristError = 12; //degrees
+  const byte wristError = 15; //degrees
 
   wristAngle = 270 - shoulderAngle - elbowAngle + wristError;
   
