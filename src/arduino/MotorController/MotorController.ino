@@ -48,6 +48,7 @@ void setup() {
   clawServo.attach(CLAW_PIN);
   wristServo.attach(WRIST_PIN);
   elbowServo.attach(ELBOW_PIN);
+  elbowServo.write(70);
   //baseServo.attach(BASE_PIN, 647, 2400);
   baseServo.attach(BASE_PIN);
   shoulderStepper.begin(SHOULDER_DIRECTION_PIN, SHOULDER_STEP_PIN);
@@ -75,7 +76,7 @@ void calibrate() {
   shoulderCurrentAngle = 180;
   delay(75);
 
-  moveStepper(135);
+  moveStepper(110);
 }
 
 void moveServo(Servo &servo, byte angle) {
