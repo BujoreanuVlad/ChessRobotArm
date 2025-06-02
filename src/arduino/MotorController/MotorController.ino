@@ -334,7 +334,7 @@ void lowerArm() {
 }
 
 void openClaw() {
-  moveServo(clawServo, 85);
+  moveServo(clawServo, 80);
 }
 
 void closeClaw() {
@@ -342,7 +342,7 @@ void closeClaw() {
 }
 
 void restClaw() {
-  moveServo(clawServo, 95);
+  moveServo(clawServo, 90);
 }
 
 void defaultPosition() {
