@@ -271,15 +271,15 @@ void moveHorizontal(float finalX, float finalY) {
 }
 
 void liftArm() {
-  moveVertical(10);
+  moveVertical(15);
 }
 
 void lowerArm() {
-  moveVertical(0.5);
+  moveVertical(1);
 }
 
 void openClaw() {
-  moveServo(clawServo, 80);
+  moveServo(clawServo, 85);
 }
 
 void closeClaw() {
@@ -294,7 +294,7 @@ void defaultPosition() {
 
   liftArm();
   moveHorizontal(18, 0);
-  moveVertical(5);
+  moveVertical(6);
 }
 
 void makeMove(byte col1, byte line1, byte col2, byte line2) {
