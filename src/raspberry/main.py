@@ -20,3 +20,5 @@ robotState.setStateLED(RobotState.STATE_FINISHED_LED_PIN)
 robotState.setWinnerLED(None)
 
 input()
+
+arduinoController.movePiece(1, 1, 3, 3)
