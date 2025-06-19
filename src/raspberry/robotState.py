@@ -53,18 +53,23 @@ class RobotState(object):
             GPIO.output(RobotState.SIDE_WHITE_LED_PIN, GPIO.LOW)
             GPIO.output(RobotState.SIDE_BLACK_LED_PIN, GPIO.LOW)
 
+            GPIO.add_event_detect(RobotState.CALIBRATE_BUTTON_PIN, GPIO.RISING)
+            GPIO.add_event_detect(RobotState.SIDE_BUTTON_PIN, GPIO.RISING)
+            GPIO.add_event_detect(RobotState.START_BUTTON_PIN, GPIO.RISING)
+            GPIO.add_event_detect(RobotState.STOP_BUTTON_PIN, GPIO.RISING)
+
         return cls.singleton_instance
 
     def registerAction(self, button: int, buttonFunction: Callable[[int], None]):
         
         if button == RobotState.CALIBRATE_ACTION:
-            GPIO.add_event_detect(RobotState.CALIBRATE_BUTTON_PIN, GPIO.RISING, callback=buttonFunction, bouncetime=200)
+            GPIO.add_event_callback(RobotState.CALIBRATE_BUTTON_PIN, buttonFunction, bouncetime=200)
         elif button == RobotState.SIDE_ACTION:
-            GPIO.add_event_detect(RobotState.SIDE_BUTTON_PIN, GPIO.RISING, callback=buttonFunction, bouncetime=200)
+            GPIO.add_event_callback(RobotState.SIDE_BUTTON_PIN, buttonFunction, bouncetime=200)
         elif button == RobotState.START_ACTION:
-            GPIO.add_event_detect(RobotState.START_BUTTON_PIN, GPIO.RISING, callback=buttonFunction, bouncetime=200)
+            GPIO.add_event_callback(RobotState.START_BUTTON_PIN, buttonFunction, bouncetime=200)
         elif button == RobotState.STOP_ACTION:
-            GPIO.add_event_detect(RobotState.STOP_BUTTON_PIN, GPIO.RISING, callback=buttonFunction, bouncetime=200)
+            GPIO.add_event_callback(RobotState.STOP_BUTTON_PIN, buttonFunction, bouncetime=200)
 
 
     def setSideLED(self, sidePin: int):
