@@ -165,7 +165,7 @@ void coordsToAngles(float x, float y, float z, byte &baseAngle, byte &shoulderAn
   float theta2 = acos((upperArmLength*upperArmLength + forearmLength*forearmLength - L*L) / (2*upperArmLength*forearmLength));
   elbowAngle = (byte) (theta2 * 180 / M_PI);
 
-  const byte wristError = 17; //degrees
+  const byte wristError = 4; //degrees
 
   wristAngle = 270 - shoulderAngle - elbowAngle + wristError;
   
@@ -275,11 +275,11 @@ void liftArm() {
 }
 
 void lowerArm() {
-  moveVertical(1);
+  moveVertical(-4.5 + boardHeight);
 }
 
 void openClaw() {
-  moveServo(clawServo, 85);
+  moveServo(clawServo, 83);
 }
 
 void closeClaw() {
@@ -303,7 +303,7 @@ void makeMove(byte col1, byte line1, byte col2, byte line2) {
 
   float boardCellLength = boardLength / 8;
 
-  float x = boardXOffset + boardCellLength / 2 + boardCellLength * (line1-1);
+  float x = boardXOffset + boardCellLength / 2 + boardCellLength * 2/3 * (line1-1);
   float y = boardYOffset + boardCellLength / 2 + boardCellLength * (col1-1 - 4); //-4 to measure from center of board
 
   moveHorizontal(x, y);
@@ -317,7 +317,7 @@ void makeMove(byte col1, byte line1, byte col2, byte line2) {
   delay(2);
   liftArm();
 
-  x = boardXOffset + boardCellLength / 2 + boardCellLength * (line2-1);
+  x = boardXOffset + boardCellLength / 2 + boardCellLength * 2/3 * (line2-1);
   y = boardYOffset + boardCellLength / 2 + boardCellLength * (col2-1 - 4); //-4 to measure from center of board
 
   moveHorizontal(x, y);
