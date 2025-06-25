@@ -21,7 +21,8 @@ class RobotPlayer(Player):
         if transformationCode != 0:
             pass
         else:
-            arduinoController.movePiece(initColumn, initLine, finalColumn, finalLine)
+            # We substract 9 because the robot's axis is inverted (i.e. column 1 is the rightmost one and column 8 is the leftmost one)
+            arduinoController.movePiece(9-initColumn, initLine, 9-finalColumn, finalLine)
             board[finalLine-1][finalColumn-1] = board[initLine-1][initColumn-1]
 
         board[initLine-1][initColumn-1] = 0

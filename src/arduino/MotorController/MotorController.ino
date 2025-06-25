@@ -308,9 +308,13 @@ void makeMove(byte col1, byte line1, byte col2, byte line2) {
 
   moveHorizontal(x, y);
 
+  delay(2);
   openClaw();
+  delay(2);
   lowerArm();
+  delay(2);
   closeClaw();
+  delay(2);
   liftArm();
 
   x = boardXOffset + boardCellLength / 2 + boardCellLength * (line2-1);
@@ -319,9 +323,13 @@ void makeMove(byte col1, byte line1, byte col2, byte line2) {
   moveHorizontal(x, y);
 
   lowerArm();
+  delay(2);
   openClaw();
+  delay(2);
   liftArm();
+  delay(2);
   restClaw();
+  delay(2);
 
   defaultPosition();
 }
