@@ -305,6 +305,115 @@ class ChessBoardChecks(unittest.TestCase):
         isCheckMate = board.isCheckMate("black")
 
         self.assertFalse(isCheckMate, "When white checks black, black is checkmated")
+
+    def test_whenWhiteChecksBlack10CheckIfBlackCheckiMate(self):
+
+        boardCodes = [
+            [ 0,  0,  0, -10, -100000000, -3, -2, -5],
+            [-1, -1, -1,   0,      0,     10, -1, -1],
+            [ 0,  0, -2,   0,      0,      0,  0,  0],
+            [ 0,  0,  0,  -1,     -1,      0,  0,  0],
+            [ 0,  0,  3,   0,      1,      0,  0,  0],
+            [ 0,  0,  0,   0,      0,      0,  0,  0],
+            [ 1,  1,  1,   1,      0,      1,  1,  1],
+            [ 5,  2,  3,   0, 100000000,   0,  2,  5]
+        ]
+        board = ChessBoard(boardCodes)
+
+        isCheck = board.isCheck("black")
+
+        self.assertTrue(isCheck, "When white checks black, black is not checked")
+        
+    def test_whenWhiteChecksBlack11CheckIfBlackCheckMate(self):
+
+        boardCodes = [
+            [0, 0, 0, -3, -ChessBoard.KING_CODE, -1, 0, 0],
+            [0, 0, 0,  0, -1, -1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [ChessBoard.QUEEN_CODE, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, -ChessBoard.BISHOP_CODE],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, ChessBoard.KING_CODE, 0, 0, 0, 0, 0],
+        ]
+        board = ChessBoard(boardCodes)
+
+        isCheckMate = board.isCheckMate("black")
+
+        self.assertFalse(isCheckMate, "When white checks black, black is checkmated")
+
+    def test_whenWhiteChecksBlack12CheckIfBlackCheckMate(self):
+
+        boardCodes = [
+            [0, 0, 0, -3, -ChessBoard.KING_CODE, -1, 0, 0],
+            [0, 0, 0,  0, -1, -1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [ChessBoard.QUEEN_CODE, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, -5, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, ChessBoard.KING_CODE, 0, 0, 0, 0, 0],
+        ]
+        board = ChessBoard(boardCodes)
+
+        isCheckMate = board.isCheckMate("black")
+
+        self.assertFalse(isCheckMate, "When white checks black, black is checkmated")
+
+    def test_whenWhiteChecksBlack12CheckIfBlackCheckMateReversed(self):
+
+        boardCodes = [
+            [0, 0, 0, 3, ChessBoard.KING_CODE, 1, 0, 0],
+            [0, 0, 0,  0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [-ChessBoard.QUEEN_CODE, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 5, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, -ChessBoard.KING_CODE, 0, 0, 0, 0, 0],
+        ]
+        board = ChessBoard(boardCodes, "reversed")
+
+        isCheckMate = board.isCheckMate("black")
+
+        self.assertFalse(isCheckMate, "When black checks white, white is checkmated")
+
+    def test_whenWhiteCheckMatesBlack13CheckIfBlackCheck(self):
+
+        boardCodes = [
+            [0, 0, 0, -3, -ChessBoard.KING_CODE, -1, 0, 0],
+            [0, 0, 0,  0, -1, -1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [ChessBoard.QUEEN_CODE, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, ChessBoard.KING_CODE, 0, 0, 0, 0, 0],
+        ]
+        board = ChessBoard(boardCodes)
+
+        isCheck = board.isCheck("black")
+
+        self.assertTrue(isCheck, "When white check mates black, black is not checked")
+
+    def test_whenWhiteCheckMatesBlack13CheckIfBlackCheckMate(self):
+
+        boardCodes = [
+            [0, 0, 0, -3, -ChessBoard.KING_CODE, -1, 0, 0],
+            [0, 0, 0,  0, -1, -1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [ChessBoard.QUEEN_CODE, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, ChessBoard.KING_CODE, 0, 0, 0, 0, 0],
+        ]
+        board = ChessBoard(boardCodes)
+
+        isCheckMate = board.isCheckMate("black")
+
+        self.assertTrue(isCheckMate, "When white check mates black, black is not checkmated")
+
     
 
 if __name__ == '__main__':

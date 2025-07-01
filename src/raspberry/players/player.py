@@ -7,6 +7,5 @@ class Player(ABC):
 
         self.side = side
 
-    @abstractmethod
     def playMove(self, board: List[List[int]], boardOrientation: str) -> None:
         pass
