@@ -21,4 +21,4 @@ robotState.setWinnerLED(None)
 
 input()
 
-arduinoController.movePiece(1, 1, 3, 3)
+#arduinoController.movePiece(1, 1, 3, 3)
