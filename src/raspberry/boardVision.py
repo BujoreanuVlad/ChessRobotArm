@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 class BoardVisionModule:
 
@@ -6,31 +7,31 @@ class BoardVisionModule:
         
         processedImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        thresh = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 49, 1)
+        grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        thresh = cv2.adaptiveThreshold(grayImage, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 49, 1)
 
         return thresh
 
 
     def detectCorners(self, processedImage):
 
-        horizontal_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (10, 1))
-        horizontal_kernel_2 = cv2.getStructuringElement(cv2.MORPH_RECT, (40, 1))
+        horizontalKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (10, 1))
+        horizontalKernel2 = cv2.getStructuringElement(cv2.MORPH_RECT, (40, 1))
 
-        vertical_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 10))
-        vertical_kernel_2 = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 40))
+        verticalKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 10))
+        verticalKernel2 = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 40))
 
-        morph_1_horizontal = cv2.morphologyEx(thresh_1, cv2.MORPH_OPEN, horizontal_kernel, iterations=1)
-        morph_1_horizontal_2 = cv2.morphologyEx(morph_1_horizontal, cv2.MORPH_OPEN, horizontal_kernel_2, iterations=1)
+        morphHorizontal = cv2.morphologyEx(processedImage, cv2.MORPH_OPEN, horizontalKernel, iterations=1)
+        morphHorizontal2 = cv2.morphologyEx(morphHorizontal, cv2.MORPH_OPEN, horizontalKernel2, iterations=1)
 
-        morph_1_vertical = cv2.morphologyEx(thresh_1, cv2.MORPH_OPEN, vertical_kernel, iterations=1)
-        morph_1_vertical_2 = cv2.morphologyEx(morph_1_vertical, cv2.MORPH_OPEN, vertical_kernel_2, iterations=1)
+        morphVertical = cv2.morphologyEx(processedImage, cv2.MORPH_OPEN, verticalKernel, iterations=1)
+        morphVertical2 = cv2.morphologyEx(morphVertical, cv2.MORPH_OPEN, verticalKernel2, iterations=1)
 
-        combined_or_1 = cv2.bitwise_or(morph_1_horizontal_2, morph_1_vertical_2)
-        ellipse_kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (81, 81))
-        dilate_2 = cv2.morphologyEx(combined_or_1, cv2.MORPH_CLOSE, ellipse_kernel)
+        combinedOr = cv2.bitwise_or(morphHorizontal2, morphVertical2)
+        ellipseKernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (81, 81))
+        dilate = cv2.morphologyEx(combinedOr, cv2.MORPH_CLOSE, ellipseKernel)
 
-        contours, hierarchy = cv2.findContours(dilate_2, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = cv2.findContours(dilate, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         maxArea = 0
         maxContour = None
@@ -43,6 +44,8 @@ class BoardVisionModule:
 
         alpha = 0.05
         arcLength = cv2.arcLength(maxContour, True)
+        epsilon = alpha * arcLength
+        approx = cv2.approxPolyDP(maxContour, epsilon, True)
         
         while len(approx) != 4:
             if len(approx) < 4:
@@ -60,11 +63,14 @@ class BoardVisionModule:
         
     def getWarpedImage(self, image):
 
-       processedImage = self.preprocessImage(image)
-       corners = self.detectCorners(processedImage)
-       corners = BoardVision.getOrderedCorners(approx)
+        processedImage = self.preprocessImage(image)
+        corners = self.detectCorners(processedImage)
+        corners = BoardVisionModule.getOrderedCorners(corners)
 
-       height_1 = np.sqrt(((corners[0][0] - corners[1][0]) ** 2) + ((corners[0][1] - corners[1][1]) ** 2))
+        corners[0][1] = np.clip(corners[0][1] - 150, 0, None)
+        corners[2][1] = np.clip(corners[2][1] - 150, 0, None)
+
+        height_1 = np.sqrt(((corners[0][0] - corners[1][0]) ** 2) + ((corners[0][1] - corners[1][1]) ** 2))
         height_2 = np.sqrt(((corners[2][0] - corners[3][0]) ** 2) + ((corners[2][1] - corners[3][1]) ** 2))
 
         width_1 = np.sqrt(((corners[0][0] - corners[2][0]) ** 2) + ((corners[0][1] - corners[2][1]) ** 2))
