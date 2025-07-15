@@ -74,7 +74,7 @@ class HumanPlayer(Player):
             predictedRow = []
 
             for piecePrediction in row:
-                predictedPiece = self.pieceRecognizer.getMaxPrediction(piece)
+                predictedPiece = self.pieceRecognizer.getMaxPrediction(piecePrediction)
                 predictedRow.append(predictedPiece)
 
             predictedBoard.append(predictedRow)
@@ -82,7 +82,7 @@ class HumanPlayer(Player):
         ChessBoard(predictedBoard, board.boardOrientation).printBoard()
 
         # Player hasn't made a move yet
-        while predictedBoard == board.board or board.isMoveLegal(predictedBoard) == False:
+        while predictedBoard == board.board or board.isMoveLegal(predictedBoard, self.side) == False:
 
             diffs = self.getDifferences(board, predictedBoard)
 
