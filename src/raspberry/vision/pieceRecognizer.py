@@ -15,7 +15,7 @@ class PieceRecognizer:
 
         self.model = models.resnet18(pretrained=False)
         self.model.fc = nn.Linear(self.model.fc.in_features, NUM_CLASSES)
-        self.model.load_state_dict(torch.load("raspberry/vision/resnet18_chess_piece20.pt", map_location=self.DEVICE))
+        self.model.load_state_dict(torch.load("raspberry/vision/mobilenetv2_chess_piece30.pt", map_location=self.DEVICE))
         self.model = self.model.to(self.DEVICE)
         self.model.eval()
 
