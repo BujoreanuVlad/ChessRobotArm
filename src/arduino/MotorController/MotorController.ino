@@ -31,7 +31,7 @@ bool newData = false;
 Servo clawServo, wristServo, elbowServo, baseServo;
 DRV8825 shoulderStepper;
 const byte stepsPerAngle = 44;
-byte shoulderCurrentAngle = 135;
+byte shoulderCurrentAngle = 107;
 
 const float upperArmLength = 28.7; // Length in cm
 const float forearmLength = 29.0; // Length in cm
@@ -48,7 +48,7 @@ void setup() {
   clawServo.attach(CLAW_PIN);
   wristServo.attach(WRIST_PIN);
   elbowServo.attach(ELBOW_PIN);
-  elbowServo.write(70);
+  elbowServo.write(60);
   //baseServo.attach(BASE_PIN, 647, 2400);
   baseServo.attach(BASE_PIN);
   shoulderStepper.begin(SHOULDER_DIRECTION_PIN, SHOULDER_STEP_PIN);
@@ -76,7 +76,7 @@ void calibrate() {
   shoulderCurrentAngle = 180;
   delay(75);
 
-  moveStepper(110);
+  moveStepper(107);
 }
 
 void moveServo(Servo &servo, byte angle) {
@@ -293,8 +293,8 @@ void restClaw() {
 void defaultPosition() {
 
   liftArm();
-  moveHorizontal(18, 0);
-  moveVertical(6);
+  moveHorizontal(19.87, 0);
+  moveVertical(0.72);
 }
 
 void makeMove(byte col1, byte line1, byte col2, byte line2) {
