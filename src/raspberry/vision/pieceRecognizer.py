@@ -1,9 +1,10 @@
+import os
 import torch
 import cv2
 import torch.nn as nn
 from torchvision import models, transforms
 from PIL import Image
-from boardVision import BoardVisionModule
+from .boardVision import BoardVisionModule
 from ..chessBoard import ChessBoard
 
 class PieceRecognizer:
@@ -13,9 +14,9 @@ class PieceRecognizer:
         self.DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.model = models.resnet18(pretrained=False)
-        self.model.fc = nn.Linear(model.fc.in_features, NUM_CLASSES)
-        self.model.load_state_dict(torch.load("resnet18_chess_piece20.pt", map_location=self.DEVICE))
-        self.model = model.to(self.DEVICE)
+        self.model.fc = nn.Linear(self.model.fc.in_features, NUM_CLASSES)
+        self.model.load_state_dict(torch.load("raspberry/vision/resnet18_chess_piece20.pt", map_location=self.DEVICE))
+        self.model = self.model.to(self.DEVICE)
         self.model.eval()
 
         self.transform = transforms.Compose([
@@ -39,8 +40,8 @@ class PieceRecognizer:
                 tensor = self.transform(Image.fromarray(predictionImage)).unsqueeze(0).to(self.DEVICE)
                 with torch.no_grad():
                     output = self.model(tensor)
-                    output = torch.softmax(output, dim=1).cpu().numpy()[0]
-                    linePrediction.append(output)
+                    confidences = torch.softmax(output, dim=1).cpu().numpy()[0]
+                    linePrediction.append(confidences)
                     _, pred = torch.max(output, 1)
             predictions.append(linePrediction)
 

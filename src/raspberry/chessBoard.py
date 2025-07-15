@@ -894,6 +894,12 @@ class ChessBoard:
 
         return legalMoves
 
+    def isMoveLegal(self, board: List[List[int]], side: str) -> bool:
+
+        legalMoves = self.getLegalMoves(side)
+
+        return (board in legalMoves)
+
 
     def checkChessBoardState(self):
         pass

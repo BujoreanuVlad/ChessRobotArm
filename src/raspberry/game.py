@@ -22,9 +22,17 @@ class Game:
         else:
             self.board = board
 
+    def pauseResume(self):
+        if self.state == "paused":
+            self.state = "playing"
+        else:
+            self.state = "paused"
+
+    def stop(self):
+        self.state = "paused"
+
     def playTurn(self):
 
-        
         if self.board.isCheckMate("white"):
             self.state = "finished"
             self.winner = "white"

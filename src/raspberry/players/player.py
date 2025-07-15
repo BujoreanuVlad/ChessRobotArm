@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
+from ..chessBoard import ChessBoard
 
 class Player(ABC):
 
@@ -7,5 +8,5 @@ class Player(ABC):
 
         self.side = side
 
-    def playMove(self, board: List[List[int]], boardOrientation: str) -> None:
+    def playMove(self, board: ChessBoard, boardOrientation: str) -> None:
         pass
