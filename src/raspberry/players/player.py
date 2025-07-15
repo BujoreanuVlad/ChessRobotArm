@@ -8,5 +8,6 @@ class Player(ABC):
 
         self.side = side
 
-    def playMove(self, board: ChessBoard, boardOrientation: str) -> None:
+    @abstractmethod
+    def playMove(self, board: ChessBoard) -> None:
         pass

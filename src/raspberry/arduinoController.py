@@ -1,6 +1,6 @@
 import serial
-from vision.boardVision import BoardVisionModule
-from vision.camera import Camera
+from .vision.boardVision import BoardVisionModule
+from .vision.camera import Camera
 
 class ArduinoController(object):
 
@@ -16,10 +16,13 @@ class ArduinoController(object):
     def getXOffsetFromCorners(self, corners, imageHeight: int):
         distanceInPixels = (corners[1][1] + corners[3][1]) / 2
         distanceInPixels = imageHeight - distanceInPixels
+        x = distanceInPixels
         return 2.004e-05 * (x**2) - 0.04459 * x + 66.47
 
     def calibrate(self):
         self.arduino.write("c\n".encode('utf-8'))
+        #Wait to finish calibration
+        self.arduino.readline()
 
         camera = Camera()
         frame = camera.getFrame()

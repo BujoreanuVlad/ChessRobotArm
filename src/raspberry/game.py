@@ -31,10 +31,22 @@ class Game:
     def stop(self):
         self.state = "paused"
 
+    def checkPlay(self):
+        print(self.state)
+        if self.state == "playing":
+            self.playTurn()
+            board.printBoard()
+
+
     def playTurn(self):
 
         if self.board.isCheckMate("white"):
             self.state = "finished"
             self.winner = "white"
-        self.player1.playMove(self.board, self.boardOrientation)
-        self.player2.playMove(self.board, self.boardOrientation)
+            return
+        print("Is not checkmate")
+        self.player1.playMove(self.board)
+        print("Player1 finished move")
+        self.board.printBoard()
+        self.player2.playMove(self.board)
+        print("Player2 finished move")

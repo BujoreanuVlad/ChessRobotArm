@@ -1,5 +1,6 @@
 from libcamera import Transform
 from picamera2 import Picamera2
+import cv2
 
 class Camera:
 
@@ -10,8 +11,6 @@ class Camera:
             config = cls.singleton_instance.camera.create_still_configuration(transform=Transform(hflip=True, vflip=True))
             cls.singleton_instance.camera.configure(config)
             cls.singleton_instance.camera.start()
-            if not cls.singleton_instance.arduino.isOpen():
-                cls.singleton_instance.arduino.open()
 
         return cls.singleton_instance
     

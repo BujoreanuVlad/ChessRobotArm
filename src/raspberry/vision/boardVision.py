@@ -99,7 +99,7 @@ class BoardVisionModule:
     def getCornersFromPicamFrame(self, frame) -> List[np.ndarray]:
 
         bgrFrame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        preprocessedImage = self.preprocessImage(image)
+        preprocessedImage = self.preprocessImage(bgrFrame)
         processedImage = self.dilateEdges(preprocessedImage)
         corners = self.detectCorners(processedImage)
 

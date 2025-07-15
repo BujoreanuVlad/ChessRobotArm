@@ -9,7 +9,7 @@ import time
 class HumanPlayer(Player):
 
     def __init__(self, side: str):
-        self.super(side)
+        super().__init__(side)
         self.camera = Camera()
         self.vision = BoardVisionModule()
         self.pieceRecognizer = PieceRecognizer()
@@ -57,11 +57,15 @@ class HumanPlayer(Player):
         return board[0][0]
 
 
-    def playMove(self, board: ChessBoard, boardOrientation: str) -> None:
+    def playMove(self, board: ChessBoard) -> None:
        
+        print("Getting frame")
         frame = self.camera.getCVFrame()
+        print("Got frame")
         warped = self.vision.getWarpedImage(frame)
+        print("Got warped image")
         predictions = self.pieceRecognizer.predictFrame(warped)
+        print("Got predictions")
 
         predictedBoard = []
        
@@ -74,6 +78,8 @@ class HumanPlayer(Player):
                 predictedRow.append(predictedPiece)
 
             predictedBoard.append(predictedRow)
+
+        ChessBoard(predictedBoard, board.boardOrientation).printBoard()
 
         # Player hasn't made a move yet
         while predictedBoard == board.board or board.isMoveLegal(predictedBoard) == False:
@@ -120,6 +126,7 @@ class HumanPlayer(Player):
             frame = self.camera.getCVFrame()
             warped = self.vision.getWarpedImage(frame)
             predictions = self.pieceRecognizer.predictFrame(warped)
+            print("Got frame")
 
             predictedBoard = []
            
@@ -132,6 +139,8 @@ class HumanPlayer(Player):
                     predictedRow.append(predictedPiece)
 
                 predictedBoard.append(predictedRow)
+
+            ChessBoard(predictedBoard, board.boardOrientation).printBoard()
 
         # A legal move has been made
         board.board = predictedBoard
