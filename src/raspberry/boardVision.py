@@ -9,32 +9,24 @@ class BoardVisionModule:
         self.corners = None
 
     def preprocessImage(self, image: np.ndarray) -> np.ndarray:
+
+        blurred = cv2.GaussianBlur(image, (3, 3), 0)
+
+        grayImage = cv2.cvtColor(blurred, cv2.COLOR_BGR2GRAY)
         
-        imageHSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-        lowerBound = np.array([0, 50, 35])
-        upperBound = np.array([360, 255, 255])
-
-        mask = cv2.inRange(imageHSV, lowerBound, upperBound)
-        maskInverted = 255 - mask
-        maskInvertedDilated = cv2.morphologyEx(maskInverted, cv2.MORPH_CLOSE, np.ones((25, 25)))
-
-        grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        grayInverted = 255 - grayImage
-        grayKept = cv2.bitwise_and(grayInverted, grayInverted, mask=maskInvertedDilated)
-
-        thresh = cv2.adaptiveThreshold(grayKept, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 209, 1)
-        threshInverted = 255 - thresh
-        ellipseKernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (19, 19))
-        threshInvertedDilated = cv2.morphologyEx(threshInverted, cv2.MORPH_CLOSE, ellipseKernel)
-        threshInvertedDilatedReversed = 255 - threshInvertedDilated
-        threshInvertedDilatedReversedDilated = cv2.morphologyEx(threshInvertedDilatedReversed, cv2.MORPH_CLOSE, np.ones((11, 11)))
-
-
-        return threshInvertedDilatedReversedDilated
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+        grayImage = clahe.apply(grayImage)
+        
+        thresh = cv2.threshold(grayImage, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+        
+        kernel = np.ones((3, 3), np.uint8)
+        thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=1)
+        thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=1)
+        
+        return 255-thresh
 
     def dilateEdges(self, preprocessedImage: np.ndarray) -> np.ndarray:
 
-        #processedImage = 255 - preprocessedImage
         processedImage = preprocessedImage
 
         horizontalKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (10, 1))
@@ -58,7 +50,6 @@ class BoardVisionModule:
         
 
     def detectCorners(self, processedImage: np.ndarray, firstTry: bool=True) -> List[np.ndarray]:
-
 
         contours, hierarchy = cv2.findContours(processedImage, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -101,7 +92,14 @@ class BoardVisionModule:
 
         return corners        
 
-        
+    def getCornersFromPicamFrame(self, frame) -> List[np.ndarray]:
+
+        bgrFrame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        preprocessedImage = self.preprocessImage(image)
+        processedImage = self.dilateEdges(preprocessedImage)
+        corners = self.detectCorners(processedImage)
+
+        return corners
         
     def getWarpedImage(self, image: np.ndarray) -> np.ndarray:
 
@@ -109,7 +107,6 @@ class BoardVisionModule:
         processedImage = self.dilateEdges(preprocessedImage)
         if self.corners is None:
             corners = self.detectCorners(processedImage)
-            self.corners = corners
 
         corners = deepcopy(self.corners)
 
