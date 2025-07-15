@@ -13,10 +13,9 @@ class PieceRecognizer:
         NUM_CLASSES = 13
         self.DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        self.model = models.mobilenet_v2(pretrained=False)
-        self.model.classifier[1] = torch.nn.Linear(self.model.classifier[1].in_features, NUM_CLASSES)
-        #self.model.fc = nn.Linear(self.model.fc.in_features, NUM_CLASSES)
-        self.model.load_state_dict(torch.load("raspberry/vision/mobilenetv2_chess_piece_30.pt", map_location=self.DEVICE))
+        self.model = models.shufflenet_v2_x0_5(pretrained=False)
+        self.model.fc = nn.Linear(self.model.fc.in_features, NUM_CLASSES)
+        self.model.load_state_dict(torch.load("raspberry/vision/shufflenetv2_chess_piece40.pt", map_location=self.DEVICE))
         self.model = self.model.to(self.DEVICE)
         self.model.eval()
 
